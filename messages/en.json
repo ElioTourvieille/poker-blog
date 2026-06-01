@@ -1,0 +1,51 @@
+{
+  "nav": {
+    "home": "Home",
+    "blog": "Blog",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "common": {
+    "readMore": "Read more",
+    "publishedOn": "Published on",
+    "by": "By",
+    "minRead": "min read",
+    "loading": "Loading…",
+    "backToBlog": "Back to blog",
+    "allCategories": "All categories",
+    "search": "Search",
+    "noResults": "No results",
+    "viewAll": "View all",
+    "share": "Share",
+    "tags": "Tags",
+    "categories": "Categories"
+  },
+  "home": {
+    "heroTitle": "The poker blog that elevates your game",
+    "heroSubtitle": "Strategies, analysis and tips to improve from cash games to tournaments.",
+    "featuredTitle": "Featured articles",
+    "latestTitle": "Latest articles"
+  },
+  "blog": {
+    "title": "All articles",
+    "subtitle": "Poker strategies, concepts and analysis",
+    "filterBy": "Filter by",
+    "sortBy": "Sort by",
+    "newest": "Newest",
+    "oldest": "Oldest"
+  },
+  "post": {
+    "tableOfContents": "Table of contents",
+    "relatedPosts": "Related articles",
+    "authorAbout": "About the author"
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "privacy": "Privacy",
+    "siteDescription": "Poker strategies and analysis for all levels."
+  },
+  "lang": {
+    "switch": "Français",
+    "current": "English"
+  }
+}

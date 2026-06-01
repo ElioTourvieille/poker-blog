@@ -1,0 +1,51 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "blog": "Articles",
+    "about": "À propos",
+    "contact": "Contact"
+  },
+  "common": {
+    "readMore": "Lire la suite",
+    "publishedOn": "Publié le",
+    "by": "Par",
+    "minRead": "min de lecture",
+    "loading": "Chargement…",
+    "backToBlog": "Retour aux articles",
+    "allCategories": "Toutes les catégories",
+    "search": "Rechercher",
+    "noResults": "Aucun résultat",
+    "viewAll": "Voir tout",
+    "share": "Partager",
+    "tags": "Tags",
+    "categories": "Catégories"
+  },
+  "home": {
+    "heroTitle": "Le blog poker qui élève votre jeu",
+    "heroSubtitle": "Stratégies, analyses et conseils pour progresser du cash game aux tournois.",
+    "featuredTitle": "Articles à la une",
+    "latestTitle": "Derniers articles"
+  },
+  "blog": {
+    "title": "Tous les articles",
+    "subtitle": "Stratégies, concepts et analyses poker",
+    "filterBy": "Filtrer par",
+    "sortBy": "Trier par",
+    "newest": "Plus récent",
+    "oldest": "Plus ancien"
+  },
+  "post": {
+    "tableOfContents": "Sommaire",
+    "relatedPosts": "Articles similaires",
+    "authorAbout": "À propos de l'auteur"
+  },
+  "footer": {
+    "rights": "Tous droits réservés",
+    "privacy": "Confidentialité",
+    "siteDescription": "Stratégies et analyses poker pour tous les niveaux."
+  },
+  "lang": {
+    "switch": "English",
+    "current": "Français"
+  }
+}
