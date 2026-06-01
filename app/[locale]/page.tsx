@@ -1,8 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { getFeaturedPosts, getCategories, getPosts } from '@/lib/sanity/fetch'
+import { getFeaturedPosts, getPosts } from '@/lib/sanity/fetch'
+import { FeaturedArticle } from '@/components/blog/FeaturedArticle'
 import { ArticleGrid } from '@/components/blog/ArticleGrid'
-import { CategoryBadge } from '@/components/blog/CategoryBadge'
-import { getLocalizedValue } from '@/lib/getLocalizedValue'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
 import type { Metadata } from 'next'
@@ -12,7 +11,10 @@ type Props = { params: Promise<{ locale: string }> }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'home' })
-  return { title: t('heroTitle') }
+  return {
+    title: t('heroTitle'),
+    description: t('heroSubtitle'),
+  }
 }
 
 export default async function HomePage({ params }: Props) {
@@ -22,79 +24,71 @@ export default async function HomePage({ params }: Props) {
   const t = await getTranslations('home')
   const tCommon = await getTranslations('common')
 
-  const [featured, categoriesData, { posts: latest }] = await Promise.all([
+  const [featured, { posts: latest }] = await Promise.all([
     getFeaturedPosts(),
-    getCategories(),
     getPosts(1),
   ])
 
   const typedLocale = locale as Locale
+  const heroPost = featured[0] ?? latest[0]
+  const featurePost = featured[1] ?? latest[1]
+  const gridPosts = latest.slice(0, 3)
+
+  const heroImage = heroPost?.mainImage?.asset
+    ? `url(https://cdn.sanity.io/images/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXT_PUBLIC_SANITY_DATASET}/${heroPost.mainImage.asset._ref?.replace('image-', '').replace(/-([a-z]+)$/, '.$1')}?w=1600&auto=format)`
+    : null
 
   return (
-    <main className="flex flex-col flex-1">
-      {/* Hero */}
-      <section className="bg-zinc-900 dark:bg-zinc-950 text-white px-4 py-24 text-center">
-        <div className="max-w-2xl mx-auto flex flex-col items-center gap-6">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight leading-tight">
+    <main>
+      {/* ── Hero ──────────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden bg-inverse-surface" style={{ minHeight: 420 }}>
+        {heroImage && (
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: heroImage }}
+          />
+        )}
+        <div className="absolute inset-0 bg-linear-to-t from-inverse-surface/90 via-inverse-surface/40 to-transparent" />
+        <div className="relative max-w-[1280px] mx-auto px-4 md:px-16 py-20 md:py-28 flex flex-col justify-end h-full min-h-[420px]">
+          <p className="font-ui text-xs tracking-[0.15em] uppercase text-secondary mb-4">
+            {t('heroLabel')}
+          </p>
+          <h1 className="font-serif text-4xl md:text-6xl font-bold text-inverse-on-surface leading-tight tracking-tight max-w-2xl mb-4">
             {t('heroTitle')}
           </h1>
-          <p className="text-lg text-zinc-400 leading-relaxed">{t('heroSubtitle')}</p>
-          <Link
-            href="/blog"
-            className="mt-2 inline-flex items-center justify-center rounded-full bg-white text-zinc-900 px-6 py-3 font-semibold hover:bg-zinc-100 transition-colors"
-          >
-            {tCommon('viewAll')} →
-          </Link>
+          <p className="font-sans text-base md:text-lg text-outline-variant max-w-xl leading-relaxed">
+            {t('heroSubtitle')}
+          </p>
         </div>
       </section>
 
-      {/* Categories */}
-      {categoriesData.length > 0 && (
-        <section className="px-4 py-10 max-w-5xl mx-auto w-full">
-          <div className="flex flex-wrap gap-2 justify-center">
-            {categoriesData.map((cat) => (
-              <CategoryBadge
-                key={cat._id}
-                title={getLocalizedValue(cat.title, typedLocale) ?? ''}
-                slug={cat.slug?.current ?? ''}
-                color={cat.color}
-                locale={typedLocale}
-              />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Featured posts */}
-      {featured.length > 0 && (
-        <section className="px-4 py-10 max-w-5xl mx-auto w-full">
-          <h2 className="text-2xl font-bold mb-6 text-zinc-900 dark:text-zinc-50">{t('featuredTitle')}</h2>
-          <ArticleGrid
-            posts={featured}
+      {/* ── Feature article ───────────────────────────────────────── */}
+      {featurePost && (
+        <section className="max-w-[1280px] mx-auto px-4 md:px-16 py-16 md:py-24">
+          <FeaturedArticle
+            post={featurePost}
             locale={typedLocale}
-            tReadMore={tCommon('readMore')}
-            tBy={tCommon('by')}
+            label={t('featuredLabel')}
             tMinRead={tCommon('minRead')}
           />
         </section>
       )}
 
-      {/* Latest posts */}
-      {latest.length > 0 && (
-        <section className="px-4 py-10 max-w-5xl mx-auto w-full">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">{t('latestTitle')}</h2>
-            <Link href="/blog" className="text-sm font-medium hover:underline">
+      {/* ── Latest dispatches ─────────────────────────────────────── */}
+      {gridPosts.length > 0 && (
+        <section className="max-w-[1280px] mx-auto px-4 md:px-16 pb-20 md:pb-32">
+          <div className="flex items-baseline justify-between mb-6 pb-4 border-b border-outline-variant">
+            <h2 className="font-serif text-2xl font-semibold text-on-surface">
+              {t('latestTitle')}
+            </h2>
+            <Link
+              href="/blog"
+              className="font-ui text-xs tracking-widest uppercase text-secondary hover:text-secondary/70 transition-colors"
+            >
               {tCommon('viewAll')} →
             </Link>
           </div>
-          <ArticleGrid
-            posts={latest}
-            locale={typedLocale}
-            tReadMore={tCommon('readMore')}
-            tBy={tCommon('by')}
-            tMinRead={tCommon('minRead')}
-          />
+          <ArticleGrid posts={gridPosts} locale={typedLocale} tMinRead={tCommon('minRead')} />
         </section>
       )}
     </main>

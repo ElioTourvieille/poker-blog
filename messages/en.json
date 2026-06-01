@@ -1,9 +1,12 @@
 {
   "nav": {
-    "home": "Home",
-    "blog": "Blog",
+    "strategy": "Strategy",
+    "news": "News",
+    "destinations": "Destinations",
+    "lifestyle": "Lifestyle",
     "about": "About",
-    "contact": "Contact"
+    "contact": "Contact",
+    "subscribe": "Subscribe"
   },
   "common": {
     "readMore": "Read more",
@@ -25,31 +28,27 @@
     "next": "Next"
   },
   "home": {
-    "heroTitle": "The poker blog that elevates your game",
-    "heroSubtitle": "Strategies, analysis and tips to improve from cash games to tournaments.",
-    "featuredTitle": "Featured articles",
-    "latestTitle": "Latest articles"
+    "heroLabel": "THE POKER BLOG",
+    "heroTitle": "Poker. Strategy. Travel.",
+    "heroSubtitle": "The quiet game. Destinations, memorable hands and the modern player's lifestyle.",
+    "featuredLabel": "FEATURE",
+    "latestTitle": "Latest Dispatches",
+    "destinationsTitle": "Prime Destinations"
   },
   "blog": {
-    "title": "All articles",
-    "subtitle": "Poker strategies, concepts and analysis",
-    "filterBy": "Filter by category",
-    "sortBy": "Sort by",
-    "newest": "Newest",
-    "oldest": "Oldest",
+    "title": "All Articles",
+    "subtitle": "Strategy, destinations and poker lifestyle",
+    "filterBy": "Filter",
     "noResults": "No articles found."
   },
   "post": {
-    "tableOfContents": "Table of contents",
-    "relatedPosts": "Related articles",
-    "authorAbout": "About the author"
+    "relatedPosts": "Read Next",
+    "authorAbout": "The Author"
   },
-  "about": {
-    "title": "About"
-  },
+  "about": { "title": "About" },
   "contact": {
     "title": "Contact",
-    "subtitle": "Have a question? Send us a message.",
+    "subtitle": "Have a question? Write to us.",
     "name": "Name",
     "namePlaceholder": "Your name",
     "email": "Email",
@@ -57,7 +56,7 @@
     "message": "Message",
     "messagePlaceholder": "Your message…",
     "send": "Send",
-    "success": "Message sent! We'll get back to you soon.",
+    "success": "Message sent, thank you!",
     "sending": "Sending…"
   },
   "author": {
@@ -65,9 +64,13 @@
     "noPosts": "No articles published yet."
   },
   "footer": {
-    "rights": "All rights reserved",
-    "privacy": "Privacy",
-    "siteDescription": "Poker strategies and analysis for all levels."
+    "tagline": "The quiet game.",
+    "rights": "The Royal Editorial. All rights reserved.",
+    "links": {
+      "about": "About",
+      "archive": "Archive",
+      "privacy": "Privacy"
+    }
   },
   "lang": {
     "switch": "Français",

@@ -1,9 +1,12 @@
 {
   "nav": {
-    "home": "Accueil",
-    "blog": "Articles",
+    "strategy": "Stratégie",
+    "news": "News",
+    "destinations": "Destinations",
+    "lifestyle": "Lifestyle",
     "about": "À propos",
-    "contact": "Contact"
+    "contact": "Contact",
+    "subscribe": "S'abonner"
   },
   "common": {
     "readMore": "Lire la suite",
@@ -25,31 +28,27 @@
     "next": "Suivant"
   },
   "home": {
-    "heroTitle": "Le blog poker qui élève votre jeu",
-    "heroSubtitle": "Stratégies, analyses et conseils pour progresser du cash game aux tournois.",
-    "featuredTitle": "Articles à la une",
-    "latestTitle": "Derniers articles"
+    "heroLabel": "LE BLOG POKER",
+    "heroTitle": "Poker. Stratégie. Voyages.",
+    "heroSubtitle": "Le jeu discret. Destinations, mains mémorables et lifestyle du joueur moderne.",
+    "featuredLabel": "À LA UNE",
+    "latestTitle": "Dernières dispatches",
+    "destinationsTitle": "Destinations phares"
   },
   "blog": {
     "title": "Tous les articles",
-    "subtitle": "Stratégies, concepts et analyses poker",
-    "filterBy": "Filtrer par catégorie",
-    "sortBy": "Trier par",
-    "newest": "Plus récent",
-    "oldest": "Plus ancien",
+    "subtitle": "Stratégies, destinations et lifestyle poker",
+    "filterBy": "Filtrer",
     "noResults": "Aucun article trouvé."
   },
   "post": {
-    "tableOfContents": "Sommaire",
-    "relatedPosts": "Articles similaires",
-    "authorAbout": "À propos de l'auteur"
+    "relatedPosts": "Lire ensuite",
+    "authorAbout": "L'auteur"
   },
-  "about": {
-    "title": "À propos"
-  },
+  "about": { "title": "À propos" },
   "contact": {
     "title": "Contact",
-    "subtitle": "Une question ? Envoyez-nous un message.",
+    "subtitle": "Une question ? Écrivez-nous.",
     "name": "Nom",
     "namePlaceholder": "Votre nom",
     "email": "Email",
@@ -57,7 +56,7 @@
     "message": "Message",
     "messagePlaceholder": "Votre message…",
     "send": "Envoyer",
-    "success": "Message envoyé ! Nous vous répondrons rapidement.",
+    "success": "Message envoyé, merci !",
     "sending": "Envoi…"
   },
   "author": {
@@ -65,9 +64,13 @@
     "noPosts": "Aucun article publié pour l'instant."
   },
   "footer": {
-    "rights": "Tous droits réservés",
-    "privacy": "Confidentialité",
-    "siteDescription": "Stratégies et analyses poker pour tous les niveaux."
+    "tagline": "Le jeu discret.",
+    "rights": "The Royal Editorial. Tous droits réservés.",
+    "links": {
+      "about": "À propos",
+      "archive": "Archive",
+      "privacy": "Confidentialité"
+    }
   },
   "lang": {
     "switch": "English",

@@ -1,28 +1,43 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Noto_Serif, Inter, Work_Sans } from 'next/font/google'
 import { getLocale } from 'next-intl/server'
 import './globals.css'
 
-const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
-const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
+const notoSerif = Noto_Serif({
+  variable: '--font-noto-serif',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+})
+
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+})
+
+const workSans = Work_Sans({
+  variable: '--font-work-sans',
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+})
 
 export const metadata: Metadata = {
-  title: 'Poker Blog',
-  description: 'Stratégies et analyses poker',
+  title: { default: 'The Royal', template: '%s — The Royal' },
+  description: 'Poker. Stratégie. Voyages.',
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   let locale = 'fr'
-  try {
-    locale = await getLocale()
-  } catch {}
+  try { locale = await getLocale() } catch {}
 
   return (
     <html
       lang={locale}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${notoSerif.variable} ${inter.variable} ${workSans.variable}`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-screen flex flex-col bg-surface text-on-surface">
+        {children}
+      </body>
     </html>
   )
 }
