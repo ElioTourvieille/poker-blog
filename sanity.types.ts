@@ -636,6 +636,180 @@ export type CategoriesQueryResult = Array<{
   color: string | null;
 }>;
 
+// Source: sanity/queries/authors.ts
+// Variable: authorsQuery
+// Query: *[_type == "author"] | order(name asc) {    _id,    name,    slug,    image,    bio,    socialLinks  }
+export type AuthorsQueryResult = Array<{
+  _id: string;
+  name: string | null;
+  slug: Slug | null;
+  image: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  bio: {
+    fr?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    en?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+  } | null;
+  socialLinks: {
+    twitter?: string;
+    instagram?: string;
+    linkedin?: string;
+  } | null;
+}>;
+
+// Source: sanity/queries/authors.ts
+// Variable: authorBySlugQuery
+// Query: *[_type == "author" && slug.current == $slug][0] {    _id,    name,    slug,    image,    bio,    socialLinks  }
+export type AuthorBySlugQueryResult = {
+  _id: string;
+  name: string | null;
+  slug: Slug | null;
+  image: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  bio: {
+    fr?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+    en?: Array<{
+      children?: Array<{
+        marks?: Array<string>;
+        text?: string;
+        _type: "span";
+        _key: string;
+      }>;
+      style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+      listItem?: "bullet" | "number";
+      markDefs?: Array<{
+        href?: string;
+        _type: "link";
+        _key: string;
+      }>;
+      level?: number;
+      _type: "block";
+      _key: string;
+    }>;
+  } | null;
+  socialLinks: {
+    twitter?: string;
+    instagram?: string;
+    linkedin?: string;
+  } | null;
+} | null;
+
+// Source: sanity/queries/authors.ts
+// Variable: authorPathsQuery
+// Query: *[_type == "author" && defined(slug.current)][].slug.current
+export type AuthorPathsQueryResult = Array<string | null>;
+
+// Source: sanity/queries/pages.ts
+// Variable: pageBySlugQuery
+// Query: *[_type == "page" && slug.current == $slug][0] {    _id,    title,    slug,    body,    seo  }
+export type PageBySlugQueryResult = {
+  _id: string;
+  title: {
+    fr?: string;
+    en?: string;
+  } | null;
+  slug: Slug | null;
+  body: {
+    fr?: BlockContent;
+    en?: BlockContent;
+  } | null;
+  seo: {
+    metaTitle?: string;
+    metaDescription?: string;
+    ogImage?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+  } | null;
+} | null;
+
+// Source: sanity/queries/settings.ts
+// Variable: siteSettingsQuery
+// Query: *[_type == "siteSettings"][0] {    title,    description,    logo,    socialLinks  }
+export type SiteSettingsQueryResult = {
+  title: string | null;
+  description: {
+    fr?: string;
+    en?: string;
+  } | null;
+  logo: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  } | null;
+  socialLinks: {
+    twitter?: string;
+    instagram?: string;
+    youtube?: string;
+    twitch?: string;
+  } | null;
+} | null;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
@@ -645,5 +819,10 @@ declare module "@sanity/client" {
     '\n  *[_type == "post" && defined(slug.current)][].slug.current\n': PostPathsQueryResult;
     '\n  *[_type == "post" && featured == true] | order(publishedAt desc) [0...3] {\n    _id,\n    title,\n    slug,\n    publishedAt,\n    excerpt,\n    mainImage,\n    readingTime,\n    "author": author->{\n      name,\n      image,\n      slug\n    },\n    "categories": categories[]->{\n      title,\n      slug,\n      color\n    }\n  }\n': FeaturedPostsQueryResult;
     '\n  *[_type == "category"] | order(title.fr asc) {\n    _id,\n    title,\n    slug,\n    description,\n    color\n  }\n': CategoriesQueryResult;
+    '\n  *[_type == "author"] | order(name asc) {\n    _id,\n    name,\n    slug,\n    image,\n    bio,\n    socialLinks\n  }\n': AuthorsQueryResult;
+    '\n  *[_type == "author" && slug.current == $slug][0] {\n    _id,\n    name,\n    slug,\n    image,\n    bio,\n    socialLinks\n  }\n': AuthorBySlugQueryResult;
+    '\n  *[_type == "author" && defined(slug.current)][].slug.current\n': AuthorPathsQueryResult;
+    '\n  *[_type == "page" && slug.current == $slug][0] {\n    _id,\n    title,\n    slug,\n    body,\n    seo\n  }\n': PageBySlugQueryResult;
+    '\n  *[_type == "siteSettings"][0] {\n    title,\n    description,\n    logo,\n    socialLinks\n  }\n': SiteSettingsQueryResult;
   }
 }

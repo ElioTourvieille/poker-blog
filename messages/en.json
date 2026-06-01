@@ -18,7 +18,11 @@
     "viewAll": "View all",
     "share": "Share",
     "tags": "Tags",
-    "categories": "Categories"
+    "categories": "Categories",
+    "page": "Page",
+    "of": "of",
+    "previous": "Previous",
+    "next": "Next"
   },
   "home": {
     "heroTitle": "The poker blog that elevates your game",
@@ -29,15 +33,36 @@
   "blog": {
     "title": "All articles",
     "subtitle": "Poker strategies, concepts and analysis",
-    "filterBy": "Filter by",
+    "filterBy": "Filter by category",
     "sortBy": "Sort by",
     "newest": "Newest",
-    "oldest": "Oldest"
+    "oldest": "Oldest",
+    "noResults": "No articles found."
   },
   "post": {
     "tableOfContents": "Table of contents",
     "relatedPosts": "Related articles",
     "authorAbout": "About the author"
+  },
+  "about": {
+    "title": "About"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Have a question? Send us a message.",
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "your@email.com",
+    "message": "Message",
+    "messagePlaceholder": "Your message…",
+    "send": "Send",
+    "success": "Message sent! We'll get back to you soon.",
+    "sending": "Sending…"
+  },
+  "author": {
+    "posts": "Articles by this author",
+    "noPosts": "No articles published yet."
   },
   "footer": {
     "rights": "All rights reserved",
