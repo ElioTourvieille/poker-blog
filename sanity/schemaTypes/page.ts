@@ -1,8 +1,8 @@
 import {defineField, defineType} from 'sanity'
 
 export default defineType({
-  name: 'category',
-  title: 'Category',
+  name: 'page',
+  title: 'Page',
   type: 'document',
   fields: [
     defineField({
@@ -26,29 +26,23 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'description',
-      title: 'Description',
+      name: 'body',
+      title: 'Body',
       type: 'object',
       fields: [
-        {name: 'fr', type: 'text', title: 'Français'},
-        {name: 'en', type: 'text', title: 'English'},
+        {name: 'fr', type: 'blockContent', title: 'Français'},
+        {name: 'en', type: 'blockContent', title: 'English'},
       ],
     }),
     defineField({
-      name: 'color',
-      title: 'Color',
-      type: 'string',
-      description: 'Hex color for category badge (e.g., #2C5F4F)',
-      validation: (Rule) => Rule.regex(/^#[0-9A-F]{6}$/i, {
-        name: 'hex color',
-        invert: false,
-      }),
-    }),
-    defineField({
-      name: 'icon',
-      title: 'Icon',
-      type: 'string',
-      description: 'Emoji or icon identifier for this category (e.g., ♠️, 🃏)',
+      name: 'seo',
+      title: 'SEO',
+      type: 'object',
+      fields: [
+        {name: 'metaTitle', type: 'string', title: 'Meta Title'},
+        {name: 'metaDescription', type: 'text', title: 'Meta Description', rows: 3},
+        {name: 'ogImage', type: 'image', title: 'OG Image'},
+      ],
     }),
   ],
   preview: {

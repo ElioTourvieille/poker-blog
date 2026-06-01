@@ -3,6 +3,9 @@ import post from './post'
 import category from './category'
 import author from './author'
 import blockContent from './blockContent'
+import tag from './tag'
+import siteSettings from './siteSettings'
+import page from './page'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -10,5 +13,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     category,
     author,
     blockContent,
+    tag,
+    siteSettings,
+    page,
   ],
 }

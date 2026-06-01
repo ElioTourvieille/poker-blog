@@ -55,6 +55,12 @@ export default defineType({
       of: [{type: 'reference', to: {type: 'category'}}],
     }),
     defineField({
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{type: 'reference', to: {type: 'tag'}}],
+    }),
+    defineField({
       name: 'publishedAt',
       title: 'Published at',
       type: 'datetime',
@@ -90,6 +96,16 @@ export default defineType({
       title: 'Reading time (minutes)',
       type: 'number',
       description: 'Estimated reading time',
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'object',
+      fields: [
+        {name: 'metaTitle', type: 'string', title: 'Meta Title'},
+        {name: 'metaDescription', type: 'text', title: 'Meta Description', rows: 3},
+        {name: 'ogImage', type: 'image', title: 'OG Image'},
+      ],
     }),
   ],
   preview: {
