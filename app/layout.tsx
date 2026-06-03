@@ -34,6 +34,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html
       lang={locale}
       className={`${notoSerif.variable} ${inter.variable} ${workSans.variable}`}
+      suppressHydrationWarning
     >
       <body className="min-h-screen flex flex-col bg-surface text-on-surface">
         {children}

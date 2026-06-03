@@ -17,7 +17,7 @@
     "@sanity/client": "^7.22.1",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^5.23.0",
-    "better-auth": "^1.6.13",
+    "better-auth": "^1.6.14",
     "drizzle-orm": "^0.45.2",
     "next": "16.2.4",
     "next-intl": "^4.13.0",
@@ -25,7 +25,8 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "sanity": "^5.23.0",
-    "styled-components": "^6.4.1"
+    "styled-components": "^6.4.1",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -39,5 +40,10 @@
     "tailwindcss": "^4",
     "typescript": "^5"
   },
-  "packageManager": "pnpm@10.28.1+sha512.7d7dbbca9e99447b7c3bf7a73286afaaf6be99251eb9498baefa7d406892f67b879adb3a1d7e687fc4ccc1a388c7175fbaae567a26ab44d1067b54fcb0d6a316"
+  "packageManager": "pnpm@10.28.1+sha512.7d7dbbca9e99447b7c3bf7a73286afaaf6be99251eb9498baefa7d406892f67b879adb3a1d7e687fc4ccc1a388c7175fbaae567a26ab44d1067b54fcb0d6a316",
+  "pnpm": {
+    "overrides": {
+      "kysely": "0.28.17"
+    }
+  }
 }
