@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import { eq, and, desc } from 'drizzle-orm'
-import { auth } from '@/auth'
+import { auth } from '@/lib/auth'
 import { db, bookmark } from '@/lib/db'
 import { toggleBookmarkSchema } from '@/lib/validators'
 
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
   const body = await request.json()
   const parsed = toggleBookmarkSchema.safeParse(body)
   if (!parsed.success) {
-    return NextResponse.json({ error: parsed.error.flatten() }, { status: 422 })
+    return NextResponse.json({ error: parsed.error.issues }, { status: 422 })
   }
 
   const { postSlug } = parsed.data

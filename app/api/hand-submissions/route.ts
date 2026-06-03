@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import { eq, desc } from 'drizzle-orm'
-import { auth } from '@/auth'
+import { auth } from '@/lib/auth'
 import { db, handSubmission } from '@/lib/db'
 import { createHandSubmissionSchema } from '@/lib/validators'
 
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
   const body = await request.json()
   const parsed = createHandSubmissionSchema.safeParse(body)
   if (!parsed.success) {
-    return NextResponse.json({ error: parsed.error.flatten() }, { status: 422 })
+    return NextResponse.json({ error: parsed.error.issues }, { status: 422 })
   }
 
   const [submission] = await db

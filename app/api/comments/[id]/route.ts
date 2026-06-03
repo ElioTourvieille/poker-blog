@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import { eq, and } from 'drizzle-orm'
-import { auth } from '@/auth'
+import { auth } from '@/lib/auth'
 import { db, comment } from '@/lib/db'
 
 // DELETE /api/comments/[id] — supprimer (proprio ou admin)
