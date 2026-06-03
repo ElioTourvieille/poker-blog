@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { getFeaturedPosts, getPosts } from '@/lib/sanity/fetch'
 import { FeaturedArticle } from '@/components/blog/FeaturedArticle'
 import { ArticleGrid } from '@/components/blog/ArticleGrid'
+import { NewsletterForm } from '@/components/newsletter/NewsletterForm'
 import { Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
 import type { Metadata } from 'next'
@@ -91,6 +92,26 @@ export default async function HomePage({ params }: Props) {
           <ArticleGrid posts={gridPosts} locale={typedLocale} tMinRead={tCommon('minRead')} />
         </section>
       )}
+
+      {/* ── Newsletter ────────────────────────────────────────────── */}
+      <section className="border-t border-outline-variant">
+        <div className="max-w-[1280px] mx-auto px-4 md:px-16 py-16 md:py-20 flex flex-col md:flex-row md:items-center gap-8 md:gap-16">
+          <div className="flex-1">
+            <p className="font-ui text-xs tracking-widest uppercase text-secondary mb-3">
+              Newsletter
+            </p>
+            <h2 className="font-serif text-2xl md:text-3xl font-bold text-on-surface leading-tight mb-3">
+              Analyses & stratégies directement dans votre boîte
+            </h2>
+            <p className="font-sans text-sm text-on-surface-variant leading-relaxed">
+              Résumé hebdomadaire des nouveaux articles, notifications Main de la semaine. Aucun spam.
+            </p>
+          </div>
+          <div className="flex-1 max-w-md">
+            <NewsletterForm compact />
+          </div>
+        </div>
+      </section>
     </main>
   )
 }

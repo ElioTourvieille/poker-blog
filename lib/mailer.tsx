@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { render } from 'react-email'
 import { resend, FROM_EMAIL } from './resend'
 import { MagicLinkEmail } from '@/emails/auth/MagicLinkEmail'
@@ -99,14 +98,16 @@ export async function sendWeeklyDigestEmail({
   email,
   posts,
   weekLabel,
+  unsubscribeUrl,
 }: {
   name: string
   email: string
   posts: DigestPost[]
   weekLabel?: string
+  unsubscribeUrl?: string
 }) {
   const html = await render(
-    <WeeklyDigestEmail name={name} posts={posts} weekLabel={weekLabel} />
+    <WeeklyDigestEmail name={name} posts={posts} weekLabel={weekLabel} unsubscribeUrl={unsubscribeUrl} />
   )
   const { error } = await resend.emails.send({
     from: FROM_EMAIL,

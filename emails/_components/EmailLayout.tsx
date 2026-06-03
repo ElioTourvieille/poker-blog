@@ -4,7 +4,6 @@ import {
   Head,
   Hr,
   Html,
-  Img,
   Link,
   Preview,
   Section,
@@ -18,9 +17,10 @@ const SITE_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 interface EmailLayoutProps {
   preview: string
   children: React.ReactNode
+  unsubscribeUrl?: string
 }
 
-export function EmailLayout({ preview, children }: EmailLayoutProps) {
+export function EmailLayout({ preview, children, unsubscribeUrl }: EmailLayoutProps) {
   return (
     <Html lang="fr">
       <Head />
@@ -43,10 +43,14 @@ export function EmailLayout({ preview, children }: EmailLayoutProps) {
               <Link href={`${SITE_URL}`} style={s.footerLink}>
                 Visiter le site
               </Link>
-              {'  ·  '}
-              <Link href={`${SITE_URL}/unsubscribe`} style={s.footerLink}>
-                Se désabonner
-              </Link>
+              {unsubscribeUrl && (
+                <>
+                  {'  ·  '}
+                  <Link href={unsubscribeUrl} style={s.footerLink}>
+                    Se désabonner
+                  </Link>
+                </>
+              )}
             </Text>
           </Section>
         </Container>

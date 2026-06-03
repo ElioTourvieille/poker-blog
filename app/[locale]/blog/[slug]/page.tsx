@@ -7,6 +7,7 @@ import { formatDate } from '@/lib/formatDate'
 import { urlFor } from '@/sanity/lib/image'
 import { PortableTextRenderer } from '@/components/blog/PortableTextRenderer'
 import { ArticleGrid } from '@/components/blog/ArticleGrid'
+import { NewsletterForm } from '@/components/newsletter/NewsletterForm'
 import { Link } from '@/i18n/navigation'
 import { routing } from '@/i18n/routing'
 import type { Locale } from '@/i18n/routing'
@@ -127,6 +128,17 @@ export default async function PostPage({ params }: Props) {
 
         {/* Body */}
         {body && <PortableTextRenderer value={body} />}
+
+        {/* Newsletter */}
+        <div className="mt-16 pt-10 border-t border-outline-variant">
+          <p className="font-serif text-xl font-semibold text-on-surface mb-2">
+            Vous avez aimé cet article ?
+          </p>
+          <p className="font-sans text-sm text-on-surface-variant mb-6">
+            Recevez chaque semaine les nouvelles analyses directement dans votre boîte mail.
+          </p>
+          <NewsletterForm compact />
+        </div>
       </div>
 
       {/* ── Related posts ─────────────────────────────────────────── */}

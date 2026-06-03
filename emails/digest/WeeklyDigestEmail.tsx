@@ -1,5 +1,4 @@
 import { Heading, Hr, Link, Section, Text } from 'react-email'
-import * as React from 'react'
 import { EmailLayout } from '../_components/EmailLayout'
 
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
@@ -15,17 +14,22 @@ export interface WeeklyDigestEmailProps {
   name: string
   posts: DigestPost[]
   weekLabel?: string
+  unsubscribeUrl?: string
 }
 
 export function WeeklyDigestEmail({
   name,
   posts,
   weekLabel,
+  unsubscribeUrl,
 }: WeeklyDigestEmailProps) {
   const firstName = name.split(' ')[0]
 
   return (
-    <EmailLayout preview={`Votre résumé poker de la semaine — ${posts.length} nouveaux articles`}>
+    <EmailLayout
+      preview={`Votre résumé poker de la semaine — ${posts.length} nouveaux articles`}
+      unsubscribeUrl={unsubscribeUrl}
+    >
       <Text style={s.label}>Résumé hebdomadaire</Text>
       <Heading style={s.heading}>
         Bonjour {firstName}, voici vos articles de la semaine
