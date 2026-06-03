@@ -3,6 +3,7 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { magicLink } from 'better-auth/plugins'
 import { db } from '@/db'
 import * as schema from '@/db/schema'
+import { sendMagicLinkEmail, sendWelcomeEmail } from '@/lib/mailer'
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
@@ -25,12 +26,20 @@ export const auth = betterAuth({
     },
   },
 
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (user) => {
+          await sendWelcomeEmail({ name: user.name, email: user.email })
+        },
+      },
+    },
+  },
+
   plugins: [
     magicLink({
-      // Resend sera configuré ici plus tard
       sendMagicLink: async ({ email, url }) => {
-        // TODO: remplacer par Resend
-        console.log(`[Magic Link] ${email} → ${url}`)
+        await sendMagicLinkEmail({ email, url })
       },
     }),
   ],
@@ -40,7 +49,7 @@ export const auth = betterAuth({
       role: {
         type: 'string',
         defaultValue: 'user',
-        input: false, // non modifiable par l'utilisateur directement
+        input: false,
       },
       isPremium: {
         type: 'boolean',

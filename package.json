@@ -9,11 +9,13 @@
     "lint": "eslint",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "email:dev": "email dev --dir ./emails --port 3001"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
     "@portabletext/react": "^6.2.0",
+    "@react-email/components": "^1.0.12",
     "@sanity/client": "^7.22.1",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^5.23.0",
@@ -24,11 +26,14 @@
     "next-sanity": "^12.4.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-email": "^6.5.0",
+    "resend": "^6.12.4",
     "sanity": "^5.23.0",
     "styled-components": "^6.4.1",
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@react-email/ui": "6.5.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
