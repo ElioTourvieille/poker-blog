@@ -1,9 +1,8 @@
 {
   "nav": {
     "strategy": "Stratégie",
-    "news": "News",
-    "destinations": "Destinations",
-    "lifestyle": "Lifestyle",
+    "obsession": "Obsession",
+    "drops": "Drops",
     "about": "À propos",
     "contact": "Contact",
     "subscribe": "S'abonner"
@@ -63,9 +62,11 @@
     "posts": "Articles de cet auteur",
     "noPosts": "Aucun article publié pour l'instant."
   },
+  "brand": {
+    "tagline": "Poker ♦ Life ♦ Obsession"
+  },
   "footer": {
-    "tagline": "Le jeu discret.",
-    "rights": "The Royal Editorial. Tous droits réservés.",
+    "rights": "PLO. Tous droits réservés.",
     "links": {
       "about": "À propos",
       "archive": "Archive",

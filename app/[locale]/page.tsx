@@ -50,14 +50,14 @@ export default async function HomePage({ params }: Props) {
           />
         )}
         <div className="absolute inset-0 bg-linear-to-t from-inverse-surface/90 via-inverse-surface/40 to-transparent" />
-        <div className="relative max-w-[1280px] mx-auto px-4 md:px-16 py-20 md:py-28 flex flex-col justify-end h-full min-h-[420px]">
+        <div className="relative max-w-7xl mx-auto px-4 md:px-16 py-20 md:py-28 flex flex-col justify-end h-full min-h-105">
           <p className="font-ui text-xs tracking-[0.15em] uppercase text-secondary mb-4">
             {t('heroLabel')}
           </p>
           <h1 className="font-serif text-4xl md:text-6xl font-bold text-inverse-on-surface leading-tight tracking-tight max-w-2xl mb-4">
             {t('heroTitle')}
           </h1>
-          <p className="font-sans text-base md:text-lg text-outline-variant max-w-xl leading-relaxed">
+          <p className="font-sans text-base md:text-lg text-outline max-w-xl leading-relaxed">
             {t('heroSubtitle')}
           </p>
         </div>
@@ -65,7 +65,7 @@ export default async function HomePage({ params }: Props) {
 
       {/* ── Feature article ───────────────────────────────────────── */}
       {featurePost && (
-        <section className="max-w-[1280px] mx-auto px-4 md:px-16 py-16 md:py-24">
+        <section className="max-w-7xl mx-auto px-4 md:px-16 py-16 md:py-24">
           <FeaturedArticle
             post={featurePost}
             locale={typedLocale}
@@ -77,7 +77,7 @@ export default async function HomePage({ params }: Props) {
 
       {/* ── Latest dispatches ─────────────────────────────────────── */}
       {gridPosts.length > 0 && (
-        <section className="max-w-[1280px] mx-auto px-4 md:px-16 pb-20 md:pb-32">
+        <section className="max-w-7xl mx-auto px-4 md:px-16 pb-20 md:pb-32">
           <div className="flex items-baseline justify-between mb-6 pb-4 border-b border-outline-variant">
             <h2 className="font-serif text-2xl font-semibold text-on-surface">
               {t('latestTitle')}
@@ -95,7 +95,7 @@ export default async function HomePage({ params }: Props) {
 
       {/* ── Newsletter ────────────────────────────────────────────── */}
       <section className="border-t border-outline-variant">
-        <div className="max-w-[1280px] mx-auto px-4 md:px-16 py-16 md:py-20 flex flex-col md:flex-row md:items-center gap-8 md:gap-16">
+        <div className="max-w-7xl mx-auto px-4 md:px-16 py-16 md:py-20 flex flex-col md:flex-row md:items-center gap-8 md:gap-16">
           <div className="flex-1">
             <p className="font-ui text-xs tracking-widest uppercase text-secondary mb-3">
               Newsletter

@@ -1,46 +1,454 @@
 @import "tailwindcss";
 
+/* ════════════════════════════════════════════════════════════════════════════
+   PLO — Design tokens
+   Poker · Life · Obsession
+   Dark mode only, pas de toggle. 90% noir/blanc — 10% carmin.
+   ════════════════════════════════════════════════════════════════════════════ */
+
 @theme inline {
-  /* Fonts — injected by Next.js font system */
-  --font-serif: var(--font-noto-serif);
-  --font-sans: var(--font-inter);
-  --font-ui: var(--font-work-sans);
+  /* Fonts — injectées par next/font (voir lib/fonts.ts) */
+  --font-serif: var(--font-source-serif), Georgia, serif;      /* éditorial — corps d'article */
+  --font-sans: var(--font-inter), system-ui, sans-serif;       /* utilitaire — UI, metadata */
+  --font-ui: var(--font-bebas), Impact, "Arial Narrow", sans-serif; /* display — titres, nav, boutons */
+  --font-display: var(--font-bebas), Impact, "Arial Narrow", sans-serif; /* alias du dessus */
+  --font-editorial: var(--font-source-serif), Georgia, serif;       /* alias du dessus */
 
-  /* Royal Color Palette */
-  --color-surface: #fcf9f8;
-  --color-surface-dim: #dcd9d9;
-  --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #f6f3f2;
-  --color-surface-container: #f0eded;
-  --color-surface-container-high: #eae7e7;
-  --color-surface-container-highest: #e5e2e1;
-  --color-on-surface: #1c1b1b;
-  --color-on-surface-variant: #404945;
-  --color-inverse-surface: #313030;
-  --color-inverse-on-surface: #f3f0ef;
-  --color-outline: #707975;
-  --color-outline-variant: #c0c9c3;
-  --color-primary: #104738;
-  --color-on-primary: #ffffff;
-  --color-primary-container: #2c5f4f;
-  --color-on-primary-container: #a1d7c2;
-  --color-inverse-primary: #9cd2bd;
-  --color-secondary: #994533;
-  --color-on-secondary: #ffffff;
-  --color-secondary-container: #fd947d;
-  --color-on-secondary-container: #762b1b;
-  --color-tertiary: #533a17;
-  --color-tertiary-container: #6d512c;
-  --color-on-tertiary-container: #ecc597;
+  /* ── Palette PLO — utilisable directement (bg-plo-void, text-plo-red, …) ── */
+  --color-plo-black: #000000;
+  --color-plo-void: #0a0a0a;
+  --color-plo-deep: #111111;
+  --color-plo-surface: #1a1a1a;
+  --color-plo-felt: #0d1a0d;
+  --color-plo-border: #222222;
+  --color-plo-muted: #333333;
+  --color-plo-white: #ffffff;
+  --color-plo-off: #f5f5f5;
+  --color-plo-gray: #888888;
+  --color-plo-subtle: #555555;
+  --color-plo-red: #c8102e;
+  --color-plo-red-hover: #a50d25;
+
+  /* ── Anciens tokens sémantiques — repointés vers la palette PLO ──────────
+     Toutes les pages/composants existants qui utilisent bg-surface,
+     text-on-surface, bg-primary, etc. héritent automatiquement du nouveau
+     look sans être réécrits un par un. */
+  --color-surface: var(--color-plo-void);
+  --color-surface-dim: var(--color-plo-black);
+  --color-surface-container-lowest: var(--color-plo-black);
+  --color-surface-container-low: var(--color-plo-deep);
+  --color-surface-container: var(--color-plo-deep);
+  --color-surface-container-high: var(--color-plo-surface);
+  --color-surface-container-highest: var(--color-plo-muted);
+  --color-on-surface: var(--color-plo-white);
+  --color-on-surface-variant: var(--color-plo-gray);
+  --color-inverse-surface: var(--color-plo-black);
+  --color-inverse-on-surface: var(--color-plo-white);
+  /* outline sert de texte secondaire partout dans le code existant (dates,
+     tags, légendes) — jamais de bordure — donc plo-gray, pas plo-muted.
+     outline-variant, lui, sert bien de bordure (dividers). */
+  --color-outline: var(--color-plo-gray);
+  --color-outline-variant: var(--color-plo-border);
+  --color-primary: var(--color-plo-red);
+  --color-on-primary: var(--color-plo-white);
+  --color-primary-container: var(--color-plo-red-hover);
+  --color-on-primary-container: var(--color-plo-white);
+  --color-inverse-primary: var(--color-plo-red);
+  --color-secondary: var(--color-plo-red);
+  --color-on-secondary: var(--color-plo-white);
+  --color-secondary-container: var(--color-plo-red-hover);
+  --color-on-secondary-container: var(--color-plo-white);
+  --color-tertiary: var(--color-plo-gray);
+  --color-tertiary-container: var(--color-plo-surface);
+  --color-on-tertiary-container: var(--color-plo-white);
 }
 
-* {
-  box-sizing: border-box;
+/* ── Reset & défauts ─────────────────────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  /* Le site est dark mode par défaut — pas de toggle */
+  body {
+    background-color: var(--color-plo-void);
+    color: var(--color-plo-white);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+  }
+
+  /* Titres — tous en Bebas Neue uppercase par défaut.
+     Un composant peut toujours surcharger avec font-serif/font-editorial
+     (ex : sous-titres longform dans PortableTextRenderer). */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-ui);
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1;
+  }
+
+  h1 { font-size: clamp(48px, 7vw, 96px); }
+  h2 { font-size: clamp(32px, 4vw, 56px); }
+  h3 { font-size: clamp(24px, 3vw, 40px); }
+  h4 { font-size: clamp(20px, 2.5vw, 32px); }
+  h5 { font-size: 24px; }
+  h6 { font-size: 18px; }
+
+  a {
+    transition: color 150ms ease;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--color-plo-border);
+  }
+
+  ::selection {
+    background-color: var(--color-plo-red);
+    color: var(--color-plo-white);
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-plo-void);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-plo-muted);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-plo-gray);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-plo-red);
+    outline-offset: 2px;
+  }
 }
 
-body {
-  background-color: #fcf9f8;
-  color: #1c1b1b;
-  font-family: var(--font-inter), Inter, system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
+/* ── Sections lumineuses (îlots fond blanc dans un site sombre) ──────────── */
+@layer base {
+  .section-light {
+    background-color: var(--color-plo-white);
+    color: var(--color-plo-void);
+  }
+  .section-light h1, .section-light h2, .section-light h3,
+  .section-light h4, .section-light h5, .section-light h6 {
+    color: var(--color-plo-void);
+  }
+  .section-light p { color: #444444; }
+  .section-light a:hover { color: var(--color-plo-red); }
+  .section-light hr { border-top-color: #e5e5e5; }
+}
+
+/* ── Éditorial longform (corps d'article) ─────────────────────────────────── */
+@layer base {
+  .prose-plo {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.8;
+    color: #cccccc;
+    max-width: 720px;
+  }
+  .prose-plo h2 { font-size: 36px; margin-top: 2em; margin-bottom: 0.5em; }
+  .prose-plo h3 { font-size: 26px; margin-top: 1.5em; margin-bottom: 0.5em; }
+  .prose-plo p { margin-bottom: 1.5em; }
+  .prose-plo blockquote {
+    border-left: 3px solid var(--color-plo-red);
+    padding-left: 24px;
+    margin: 2em 0;
+    font-style: italic;
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--color-plo-white);
+  }
+  .prose-plo hr {
+    margin: 3em auto;
+    width: 40px;
+    border-top: 2px solid var(--color-plo-red);
+  }
+  .prose-plo a {
+    color: var(--color-plo-white);
+    border-bottom: 1px solid var(--color-plo-muted);
+  }
+  .prose-plo a:hover { border-bottom-color: var(--color-plo-red); }
+}
+
+/* ── Utilitaires de texte PLO ─────────────────────────────────────────────── */
+@layer utilities {
+  .text-label {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .text-label-lg {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .text-poster {
+    font-family: var(--font-ui);
+    font-size: clamp(64px, 10vw, 120px);
+    line-height: 0.92;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+  .text-display {
+    font-family: var(--font-ui);
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+  .text-watermark {
+    font-family: var(--font-ui);
+    font-size: clamp(100px, 15vw, 200px);
+    line-height: 1;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0.04;
+    user-select: none;
+    pointer-events: none;
+  }
+  .text-editorial {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 30px;
+  }
+
+  /* Conteneurs */
+  .max-w-site { max-width: 1280px; }
+  .max-w-content { max-width: 720px; }
+  .max-w-wide { max-width: 1440px; }
+
+  /* Padding vertical des sections */
+  .py-section-sm { padding-top: 48px; padding-bottom: 48px; }
+  .py-section { padding-top: 80px; padding-bottom: 80px; }
+  .py-section-lg { padding-top: 120px; padding-bottom: 120px; }
+  .py-section-xl { padding-top: 160px; padding-bottom: 160px; }
+
+  /* Hauteurs fixes */
+  .h-nav { height: 56px; }
+  .h-ticker { height: 36px; }
+  .h-hero { height: 90vh; }
+  .h-hero-sm { height: 60vh; }
+
+  /* Séparateur de section avec symbole carte */
+  .suit-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .suit-divider::before, .suit-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: var(--color-plo-border);
+  }
+
+  /* Texture grain — profondeur "printed feel" sur fonds sombres */
+  .grain {
+    position: relative;
+  }
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 150px 150px;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+/* ── Composants PLO ───────────────────────────────────────────────────────── */
+@layer components {
+  /* Badges de catégorie */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border-radius: 0;
+  }
+  .badge-strategie { background-color: var(--color-plo-red); color: var(--color-plo-white); }
+  .badge-obsession { background-color: var(--color-plo-void); color: var(--color-plo-white); border: 1px solid var(--color-plo-muted); }
+  .badge-drops { background-color: var(--color-plo-surface); color: var(--color-plo-gray); border: 1px solid var(--color-plo-border); }
+  .badge-pending { background-color: var(--color-plo-surface); color: var(--color-plo-gray); border: 1px solid var(--color-plo-muted); }
+  .badge-selected { background-color: var(--color-plo-red); color: var(--color-plo-white); }
+
+  /* Boutons */
+  .btn-primary {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 12px 24px;
+    background-color: var(--color-plo-red); color: var(--color-plo-white);
+    font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    border-radius: 0; border: none; cursor: pointer;
+    transition: background-color 150ms ease;
+  }
+  .btn-primary:hover { background-color: var(--color-plo-red-hover); }
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 11px 23px;
+    background-color: transparent; color: var(--color-plo-white);
+    font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    border-radius: 0; border: 1px solid var(--color-plo-white); cursor: pointer;
+    transition: all 150ms ease;
+  }
+  .btn-secondary:hover { background-color: var(--color-plo-white); color: var(--color-plo-void); }
+
+  .btn-outline-dark {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 11px 23px;
+    background-color: transparent; color: var(--color-plo-void);
+    font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    border-radius: 0; border: 1px solid var(--color-plo-void); cursor: pointer;
+    transition: all 150ms ease;
+  }
+  .btn-outline-dark:hover { background-color: var(--color-plo-void); color: var(--color-plo-white); }
+
+  /* Cards */
+  .card-article {
+    background-color: var(--color-plo-deep);
+    border: 1px solid var(--color-plo-border);
+    border-radius: 0;
+    overflow: hidden;
+    transition: border-color 150ms ease;
+  }
+  .card-article:hover { border-color: var(--color-plo-red); }
+
+  .card-article-light {
+    background-color: var(--color-plo-white);
+    border: 1px solid #e5e5e5;
+    border-radius: 0;
+    overflow: hidden;
+    transition: border-color 150ms ease;
+  }
+  .card-article-light:hover { border-color: var(--color-plo-red); }
+
+  /* Input newsletter */
+  .input-newsletter {
+    width: 100%; padding: 14px 0;
+    background-color: transparent; color: var(--color-plo-void);
+    font-family: var(--font-sans); font-size: 13px; letter-spacing: 0.02em;
+    border: none; border-bottom: 1px solid var(--color-plo-void);
+    outline: none; border-radius: 0;
+  }
+  .input-newsletter::placeholder { color: var(--color-plo-gray); text-transform: uppercase; letter-spacing: 0.12em; font-size: 11px; }
+  .input-newsletter:focus { border-bottom-color: var(--color-plo-red); }
+
+  .input-newsletter-dark { border-bottom-color: var(--color-plo-muted); color: var(--color-plo-white); }
+  .input-newsletter-dark::placeholder { color: var(--color-plo-subtle); }
+  .input-newsletter-dark:focus { border-bottom-color: var(--color-plo-red); }
+
+  /* Ticker / marquee */
+  .ticker-track {
+    display: flex; width: max-content;
+    animation: plo-ticker 40s linear infinite;
+  }
+  .ticker-track:hover { animation-play-state: paused; }
+  .ticker-item {
+    display: flex; align-items: center; gap: 16px; padding-right: 48px;
+    font-family: var(--font-sans); font-size: 10px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap;
+    color: var(--color-plo-gray);
+  }
+  .ticker-item::after { content: "♠"; color: var(--color-plo-red); font-size: 8px; }
+
+  /* Barres de vote */
+  .vote-option {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px; border: 1px solid var(--color-plo-border);
+    cursor: pointer; transition: border-color 150ms ease, background-color 150ms ease;
+    font-family: var(--font-sans); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-plo-white);
+    position: relative; overflow: hidden;
+  }
+  .vote-option::before {
+    content: ""; position: absolute; left: 0; top: 0; height: 100%;
+    width: var(--vote-pct, 0%); background-color: rgba(200, 16, 46, 0.12);
+    transition: width 0.6s ease-out; z-index: 0;
+  }
+  .vote-option:hover { border-color: var(--color-plo-white); }
+  .vote-option.voted { border-color: var(--color-plo-red); }
+  .vote-option span { position: relative; z-index: 1; }
+  .vote-pct { font-size: 10px; color: var(--color-plo-gray); letter-spacing: 0.08em; }
+  .vote-pct.leading { color: var(--color-plo-red); }
+
+  .vote-bar { height: 2px; background-color: var(--color-plo-border); border-radius: 0; overflow: hidden; }
+  .vote-bar-fill { height: 100%; background-color: var(--color-plo-red); transition: width 0.6s ease-out; }
+
+  /* Carte de jeu (Main de la Semaine) */
+  .playing-card {
+    display: inline-flex; flex-direction: column; justify-content: space-between;
+    width: 52px; height: 72px; background-color: var(--color-plo-white);
+    border-radius: 2px; padding: 4px 6px;
+    font-family: var(--font-sans); font-size: 14px; font-weight: 700; line-height: 1;
+    color: var(--color-plo-void);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+  .playing-card.red { color: var(--color-plo-red); }
+  .playing-card .rank { font-size: 16px; font-weight: 800; }
+  .playing-card .suit { font-size: 14px; align-self: flex-end; transform: rotate(180deg); }
+  .playing-card.face-down {
+    background: repeating-linear-gradient(45deg, #111111, #111111 4px, #1a1a1a 4px, #1a1a1a 8px);
+    border: 1px solid var(--color-plo-border);
+    color: transparent;
+  }
+
+  /* Barre de progression de lecture */
+  .reading-progress {
+    position: fixed; top: 56px; left: 0; height: 2px;
+    background-color: var(--color-plo-red); z-index: 200;
+    transition: width 100ms linear; width: var(--reading-progress, 0%);
+  }
+}
+
+@keyframes plo-ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes plo-fade-up {
+  0% { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up { animation: plo-fade-up 0.4s ease-out forwards; }
+
+/* ── Réduction de mouvement ───────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

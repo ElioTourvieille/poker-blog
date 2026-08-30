@@ -1,29 +1,13 @@
 import type { Metadata } from 'next'
-import { Noto_Serif, Inter, Work_Sans } from 'next/font/google'
 import { getLocale } from 'next-intl/server'
+import { fonts } from '@/lib/fonts'
 import './globals.css'
 
-const notoSerif = Noto_Serif({
-  variable: '--font-noto-serif',
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-})
-
-const inter = Inter({
-  variable: '--font-inter',
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-})
-
-const workSans = Work_Sans({
-  variable: '--font-work-sans',
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
-})
-
 export const metadata: Metadata = {
-  title: { default: 'The Royal', template: '%s — The Royal' },
-  description: 'Poker. Stratégie. Voyages.',
+  title: { default: 'PLO — Poker. Life. Obsession.', template: '%s — PLO' },
+  description:
+    'Le journal du grinder moderne. Stratégie, culture poker, lifestyle et communauté.',
+  keywords: ['poker', 'PLO', 'stratégie poker', 'poker france', 'lifestyle poker'],
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -31,11 +15,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   try { locale = await getLocale() } catch {}
 
   return (
-    <html
-      lang={locale}
-      className={`${notoSerif.variable} ${inter.variable} ${workSans.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang={locale} className={fonts.variables} suppressHydrationWarning>
       <body className="min-h-screen flex flex-col bg-surface text-on-surface">
         {children}
       </body>

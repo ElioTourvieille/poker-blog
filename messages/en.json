@@ -1,9 +1,8 @@
 {
   "nav": {
     "strategy": "Strategy",
-    "news": "News",
-    "destinations": "Destinations",
-    "lifestyle": "Lifestyle",
+    "obsession": "Obsession",
+    "drops": "Drops",
     "about": "About",
     "contact": "Contact",
     "subscribe": "Subscribe"
@@ -63,9 +62,11 @@
     "posts": "Articles by this author",
     "noPosts": "No articles published yet."
   },
+  "brand": {
+    "tagline": "Poker ♦ Life ♦ Obsession"
+  },
   "footer": {
-    "tagline": "The quiet game.",
-    "rights": "The Royal Editorial. All rights reserved.",
+    "rights": "PLO. All rights reserved.",
     "links": {
       "about": "About",
       "archive": "Archive",
