@@ -15,7 +15,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   try { locale = await getLocale() } catch {}
 
   return (
-    <html lang={locale} className={fonts.variables} suppressHydrationWarning>
+    <html lang={locale} className={fonts.variables} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="min-h-screen flex flex-col bg-surface text-on-surface">
         {children}
       </body>

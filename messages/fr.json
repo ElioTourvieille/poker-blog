@@ -27,12 +27,13 @@
     "next": "Suivant"
   },
   "home": {
-    "heroLabel": "LE BLOG POKER",
-    "heroTitle": "Poker. Stratégie. Voyages.",
-    "heroSubtitle": "Le jeu discret. Destinations, mains mémorables et lifestyle du joueur moderne.",
+    "heroTitleLine1": "Poker.",
+    "heroTitleLine2": "Life.",
+    "heroTitleLine3": "Obsession.",
+    "heroSubtitle": "Le journal définitif pour le grinder moderne — la précision dans chaque main, la discipline dans chaque vie.",
+    "heroCta": "Lire le blog",
     "featuredLabel": "À LA UNE",
-    "latestTitle": "Dernières dispatches",
-    "destinationsTitle": "Destinations phares"
+    "latestTitle": "Dernières publications"
   },
   "blog": {
     "title": "Tous les articles",

@@ -27,12 +27,13 @@
     "next": "Next"
   },
   "home": {
-    "heroLabel": "THE POKER BLOG",
-    "heroTitle": "Poker. Strategy. Travel.",
-    "heroSubtitle": "The quiet game. Destinations, memorable hands and the modern player's lifestyle.",
+    "heroTitleLine1": "Poker.",
+    "heroTitleLine2": "Life.",
+    "heroTitleLine3": "Obsession.",
+    "heroSubtitle": "The definitive journal for the modern grinder — precision in every hand, discipline in every life.",
+    "heroCta": "Read the blog",
     "featuredLabel": "FEATURE",
-    "latestTitle": "Latest Dispatches",
-    "destinationsTitle": "Prime Destinations"
+    "latestTitle": "Latest Publications"
   },
   "blog": {
     "title": "All Articles",

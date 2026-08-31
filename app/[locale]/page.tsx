@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'home' })
   return {
-    title: t('heroTitle'),
+    title: `${t('heroTitleLine1')} ${t('heroTitleLine2')} ${t('heroTitleLine3')}`,
     description: t('heroSubtitle'),
   }
 }
@@ -51,15 +51,17 @@ export default async function HomePage({ params }: Props) {
         )}
         <div className="absolute inset-0 bg-linear-to-t from-inverse-surface/90 via-inverse-surface/40 to-transparent" />
         <div className="relative max-w-7xl mx-auto px-4 md:px-16 py-20 md:py-28 flex flex-col justify-end h-full min-h-105">
-          <p className="font-ui text-xs tracking-[0.15em] uppercase text-secondary mb-4">
-            {t('heroLabel')}
-          </p>
-          <h1 className="font-serif text-4xl md:text-6xl font-bold text-inverse-on-surface leading-tight tracking-tight max-w-2xl mb-4">
-            {t('heroTitle')}
+          <h1 className="text-poster text-inverse-on-surface mb-6">
+            <span className="block">{t('heroTitleLine1')}</span>
+            <span className="block text-plo-red">{t('heroTitleLine2')}</span>
+            <span className="block">{t('heroTitleLine3')}</span>
           </h1>
-          <p className="font-sans text-base md:text-lg text-outline max-w-xl leading-relaxed">
+          <p className="font-sans text-xs md:text-sm tracking-[0.08em] uppercase text-outline max-w-xl leading-relaxed mb-8">
             {t('heroSubtitle')}
           </p>
+          <Link href="/blog" className="btn-primary self-start">
+            {t('heroCta')}
+          </Link>
         </div>
       </section>
 
