@@ -71,7 +71,7 @@ Pour toute implémentation de feature, dans cet ordre, sans exception :
 | Paiement | Stripe | **Reporté** — ne pas implémenter sans feu vert explicite |
 | Boutique | Page d'attente uniquement en v1 | Pas commencé — canal de vente (Shopify/Printful/autre) non tranché |
 | Analytics | À choisir | **Manquant** — à installer tôt (voir Phase 3 de la méthode) |
-| Revue de code / sécurité | À confirmer sur ce repo (CodeRabbit pressenti) | Pas encore branché à ce jour |
+| Revue de code / sécurité | CodeRabbit (revue de PR) + GitHub natif (secret scanning, push protection, Dependabot) | CodeRabbit installé et connecté sur le repo (05/09/2026) ; toggles Settings → Code security à activer manuellement |
 
 ## Modèle de données
 
@@ -114,7 +114,7 @@ Pour toute implémentation de feature, dans cet ordre, sans exception :
 ## Ce que l'agent doit signaler activement (gaps identifiés au 04/09/2026)
 
 - Aucun outil d'analytics installé — à faire remonter dès la prochaine session produit, indépendamment de la feature en cours.
-- Aucun outil de revue de code / scan de sécurité confirmé branché sur ce repo — à valider avant la première PR de la Phase 02.
+- CodeRabbit installé (05/09/2026, voir `.coderabbit.yaml`) et Dependabot configuré (`.github/dependabot.yml`) — reste à confirmer manuellement dans Settings → Code security que secret scanning et push protection sont bien activés (CodeRabbit ne couvre ni l'un ni l'autre).
 - Zéro contenu publié dans Sanity — bloque toute démonstration réelle du reskin ; à signaler si ça traîne au-delà de la fin de la Phase 01.
 
 ## Points ouverts (à ne pas trancher seul)
