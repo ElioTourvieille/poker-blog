@@ -71,11 +71,23 @@
     "links": {
       "about": "About",
       "archive": "Archive",
-      "privacy": "Privacy"
+      "privacy": "Privacy",
+      "manageCookies": "Manage cookies"
     }
   },
   "lang": {
     "switch": "Français",
     "current": "English"
+  },
+  "cookieBanner": {
+    "title": "Cookies",
+    "description": "We use audience measurement cookies (PostHog, hosted in the EU) to understand what you're interested in on PLO. Nothing is sent without your consent.",
+    "learnMore": "Learn more",
+    "accept": "Accept",
+    "reject": "Reject"
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "pendingNotice": "This page is pending legal review — placeholder content."
   }
 }

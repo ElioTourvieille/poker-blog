@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useLocale } from 'next-intl'
+import { capture } from '@/lib/posthog-client'
 
 type List = 'GENERAL' | 'HAND_OF_WEEK'
 type Status = 'idle' | 'loading' | 'success' | 'already_confirmed' | 'error'
@@ -29,6 +30,7 @@ export function NewsletterForm({ defaultLists = ['GENERAL'], compact = false }: 
     if (lists.length === 0) return
     setStatus('loading')
     setErrorMsg('')
+    capture('newsletter_subscribe_submitted', { locale, lists })
 
     try {
       const res = await fetch('/api/newsletter/subscribe', {
@@ -61,7 +63,7 @@ export function NewsletterForm({ defaultLists = ['GENERAL'], compact = false }: 
           Vérifiez votre boîte mail
         </p>
         <p className="font-sans text-sm text-on-surface-variant">
-          Un email de confirmation vient d'être envoyé à <strong>{email}</strong>.
+          Un email de confirmation vient d&apos;être envoyé à <strong>{email}</strong>.
           Cliquez sur le lien pour finaliser votre inscription.
         </p>
       </div>
@@ -78,7 +80,7 @@ export function NewsletterForm({ defaultLists = ['GENERAL'], compact = false }: 
           Vous êtes déjà inscrit(e)
         </p>
         <p className="font-sans text-sm text-on-surface-variant">
-          Vos préférences d'abonnement ont été mises à jour.
+          Vos préférences d&apos;abonnement ont été mises à jour.
         </p>
       </div>
     )

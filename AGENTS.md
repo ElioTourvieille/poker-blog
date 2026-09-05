@@ -70,7 +70,7 @@ Pour toute implémentation de feature, dans cet ordre, sans exception :
 | Email | Resend (transactionnel + newsletter double opt-in + digest hebdo) | En place |
 | Paiement | Stripe | **Reporté** — ne pas implémenter sans feu vert explicite |
 | Boutique | Page d'attente uniquement en v1 | Pas commencé — canal de vente (Shopify/Printful/autre) non tranché |
-| Analytics | À choisir | **Manquant** — à installer tôt (voir Phase 3 de la méthode) |
+| Analytics | PostHog (région EU) | En place (05/09/2026) — bandeau de consentement réel, événements explicites (pas d'autocapture, pas de session replay) |
 | Revue de code / sécurité | CodeRabbit (revue de PR) + GitHub natif (secret scanning, push protection, Dependabot) | CodeRabbit installé et connecté sur le repo (05/09/2026) ; toggles Settings → Code security à activer manuellement |
 
 ## Modèle de données
@@ -113,7 +113,7 @@ Pour toute implémentation de feature, dans cet ordre, sans exception :
 
 ## Ce que l'agent doit signaler activement (gaps identifiés au 04/09/2026)
 
-- Aucun outil d'analytics installé — à faire remonter dès la prochaine session produit, indépendamment de la feature en cours.
+- PostHog installé (05/09/2026) avec bandeau de consentement réel, mais **la page de politique de confidentialité liée depuis le bandeau n'a pas de texte légal réel** (contenu Sanity `page` à créer, marqué "en attente de relecture juridique" en attendant) — à ne pas laisser traîner au-delà de la mise en prod.
 - CodeRabbit installé (05/09/2026, voir `.coderabbit.yaml`) et Dependabot configuré (`.github/dependabot.yml`) — reste à confirmer manuellement dans Settings → Code security que secret scanning et push protection sont bien activés (CodeRabbit ne couvre ni l'un ni l'autre).
 - Zéro contenu publié dans Sanity — bloque toute démonstration réelle du reskin ; à signaler si ça traîne au-delà de la fin de la Phase 01.
 

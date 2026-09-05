@@ -5,6 +5,9 @@ import { routing } from '@/i18n/routing'
 import { SanityLive } from '@/sanity/lib/live'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
+import { PostHogProvider } from '@/components/analytics/PostHogProvider'
+import { PageviewTracker } from '@/components/analytics/PageviewTracker'
+import { ConsentBanner } from '@/components/analytics/ConsentBanner'
 
 type Props = {
   children: React.ReactNode
@@ -33,6 +36,9 @@ export default async function LocaleLayout({ children, params }: Props) {
       </div>
       <Footer />
       <SanityLive />
+      <PostHogProvider />
+      <PageviewTracker />
+      <ConsentBanner />
     </NextIntlClientProvider>
   )
 }

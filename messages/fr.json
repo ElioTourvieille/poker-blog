@@ -71,11 +71,23 @@
     "links": {
       "about": "À propos",
       "archive": "Archive",
-      "privacy": "Confidentialité"
+      "privacy": "Confidentialité",
+      "manageCookies": "Gérer les cookies"
     }
   },
   "lang": {
     "switch": "English",
     "current": "Français"
+  },
+  "cookieBanner": {
+    "title": "Cookies",
+    "description": "On utilise des cookies de mesure d'audience (PostHog, hébergé en UE) pour comprendre ce qui vous intéresse sur PLO. Rien n'est envoyé sans votre accord.",
+    "learnMore": "En savoir plus",
+    "accept": "Accepter",
+    "reject": "Refuser"
+  },
+  "privacyPolicy": {
+    "title": "Politique de confidentialité",
+    "pendingNotice": "Cette page est en attente de relecture juridique — contenu provisoire."
   }
 }
