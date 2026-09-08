@@ -21,7 +21,7 @@ export function LoginButton({ className, label = 'Connexion' }: LoginButtonProps
   return (
     <button
       onClick={handleGoogleSignIn}
-      className={className ?? 'font-ui text-sm font-medium bg-primary text-on-primary px-4 py-1.5 rounded-lg hover:bg-primary-container transition-colors'}
+      className={className ?? 'text-label px-4 py-2 bg-plo-red text-plo-white hover:bg-plo-red-hover transition-colors'}
     >
       {label}
     </button>

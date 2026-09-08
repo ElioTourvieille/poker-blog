@@ -18,20 +18,20 @@ export function ContactForm() {
 
   if (status === 'sent') {
     return (
-      <div className="rounded-xl border border-green-200 bg-green-50 dark:bg-green-950 dark:border-green-800 p-6 text-center">
-        <p className="text-green-700 dark:text-green-300 font-medium">{t('success')}</p>
+      <div className="border border-plo-border p-8 text-center">
+        <p className="text-display text-2xl text-plo-white">{t('success')}</p>
       </div>
     )
   }
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50 mb-2">{t('title')}</h1>
-      <p className="text-zinc-600 dark:text-zinc-400 mb-8">{t('subtitle')}</p>
+      <h1 className="text-display text-4xl md:text-5xl text-plo-white mb-3">{t('title')}</h1>
+      <p className="font-sans text-plo-gray mb-10">{t('subtitle')}</p>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="name" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
+          <label htmlFor="name" className="text-label text-plo-gray">
             {t('name')}
           </label>
           <input
@@ -41,12 +41,12 @@ export function ContactForm() {
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
             placeholder={t('namePlaceholder')}
-            className="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-50 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-100"
+            className="input-newsletter input-newsletter-dark"
           />
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="email" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+        <div className="flex flex-col gap-2">
+          <label htmlFor="email" className="text-label text-plo-gray">
             {t('email')}
           </label>
           <input
@@ -56,12 +56,12 @@ export function ContactForm() {
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             placeholder={t('emailPlaceholder')}
-            className="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-50 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-100"
+            className="input-newsletter input-newsletter-dark"
           />
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="message" className="text-sm font-medium text-zinc-700 dark:text-zinc-300">
+        <div className="flex flex-col gap-2">
+          <label htmlFor="message" className="text-label text-plo-gray">
             {t('message')}
           </label>
           <textarea
@@ -71,15 +71,11 @@ export function ContactForm() {
             value={form.message}
             onChange={(e) => setForm({ ...form, message: e.target.value })}
             placeholder={t('messagePlaceholder')}
-            className="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-50 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-zinc-100 resize-none"
+            className="input-newsletter input-newsletter-dark resize-none"
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={status === 'sending'}
-          className="rounded-full bg-zinc-900 dark:bg-zinc-50 text-white dark:text-zinc-900 px-6 py-2.5 font-semibold text-sm hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors disabled:opacity-60"
-        >
+        <button type="submit" disabled={status === 'sending'} className="btn-primary self-start disabled:opacity-60">
           {status === 'sending' ? t('sending') : t('send')}
         </button>
       </form>

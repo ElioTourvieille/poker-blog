@@ -41,9 +41,9 @@ export default async function AuthorPage({ params }: Props) {
     : null
 
   return (
-    <main className="max-w-[1280px] mx-auto px-4 md:px-16 py-16 md:py-24">
+    <main className="max-w-7xl mx-auto px-4 md:px-16 py-16 md:py-24">
       {/* Author header */}
-      <div className="flex flex-col sm:flex-row items-start gap-6 mb-16 pb-12 border-b border-outline-variant">
+      <div className="flex flex-col sm:flex-row items-start gap-6 mb-16 pb-12 border-b border-plo-border">
         {imageUrl && (
           <Image
             src={imageUrl}
@@ -54,26 +54,26 @@ export default async function AuthorPage({ params }: Props) {
           />
         )}
         <div>
-          <h1 className="font-serif text-3xl md:text-4xl font-semibold text-on-surface mb-2">
+          <h1 className="text-display text-3xl md:text-4xl text-plo-white mb-2">
             {author.name}
           </h1>
           {author.socialLinks && (
             <div className="flex gap-4 mt-3">
               {author.socialLinks.twitter && (
                 <a href={author.socialLinks.twitter} target="_blank" rel="noopener noreferrer"
-                  className="font-ui text-xs tracking-widest uppercase text-outline hover:text-on-surface transition-colors">
+                  className="text-label text-plo-gray hover:text-plo-red transition-colors">
                   Twitter
                 </a>
               )}
               {author.socialLinks.instagram && (
                 <a href={author.socialLinks.instagram} target="_blank" rel="noopener noreferrer"
-                  className="font-ui text-xs tracking-widest uppercase text-outline hover:text-on-surface transition-colors">
+                  className="text-label text-plo-gray hover:text-plo-red transition-colors">
                   Instagram
                 </a>
               )}
               {author.socialLinks.linkedin && (
                 <a href={author.socialLinks.linkedin} target="_blank" rel="noopener noreferrer"
-                  className="font-ui text-xs tracking-widest uppercase text-outline hover:text-on-surface transition-colors">
+                  className="text-label text-plo-gray hover:text-plo-red transition-colors">
                   LinkedIn
                 </a>
               )}
@@ -83,13 +83,13 @@ export default async function AuthorPage({ params }: Props) {
       </div>
 
       <div className="flex items-baseline justify-between mb-8">
-        <h2 className="font-serif text-2xl font-semibold text-on-surface">{tAuthor('posts')}</h2>
+        <h2 className="text-display text-2xl text-plo-white">{tAuthor('posts')}</h2>
       </div>
 
       {posts.length > 0 ? (
-        <ArticleGrid posts={posts} locale={typedLocale} tMinRead={tCommon('minRead')} />
+        <ArticleGrid posts={posts} locale={typedLocale} tMinRead={tCommon('minRead')} tReadMore={tCommon('readMore')} />
       ) : (
-        <p className="font-sans text-on-surface-variant text-center py-24">{tAuthor('noPosts')}</p>
+        <p className="font-sans text-plo-gray text-center py-24">{tAuthor('noPosts')}</p>
       )}
     </main>
   )

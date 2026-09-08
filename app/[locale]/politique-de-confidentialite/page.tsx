@@ -31,12 +31,12 @@ export default async function PrivacyPolicyPage({ params }: Props) {
   const body = page ? getLocalizedValue(page.body as { fr?: BlockContent; en?: BlockContent } | null, typedLocale) : null
 
   return (
-    <main className="max-w-3xl mx-auto px-4 py-12 w-full">
-      <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50 mb-8">{title}</h1>
+    <main className="max-w-content mx-auto px-4 md:px-8 py-16 md:py-24 w-full">
+      <h1 className="text-display text-4xl md:text-5xl text-plo-white mb-10">{title}</h1>
       {body ? (
         <PortableTextRenderer value={body} />
       ) : (
-        <p className="text-zinc-500">{t('pendingNotice')}</p>
+        <p className="font-sans text-plo-gray">{t('pendingNotice')}</p>
       )}
     </main>
   )
