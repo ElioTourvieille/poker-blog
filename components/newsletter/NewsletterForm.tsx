@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useLocale } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { capture } from '@/lib/posthog-client'
 
 type List = 'GENERAL' | 'HAND_OF_WEEK'
@@ -10,10 +10,14 @@ type Status = 'idle' | 'loading' | 'success' | 'already_confirmed' | 'error'
 interface Props {
   defaultLists?: List[]
   compact?: boolean
+  /** 'light' pour une section fond blanc (ex. newsletter homepage), 'dark' ailleurs. */
+  tone?: 'dark' | 'light'
 }
 
-export function NewsletterForm({ defaultLists = ['GENERAL'], compact = false }: Props) {
+export function NewsletterForm({ defaultLists = ['GENERAL'], compact = false, tone = 'dark' }: Props) {
   const locale = useLocale()
+  const isLight = tone === 'light'
+  const t = useTranslations('newsletter.form')
   const [email, setEmail] = useState('')
   const [lists, setLists] = useState<List[]>(defaultLists)
   const [status, setStatus] = useState<Status>('idle')
@@ -41,31 +45,27 @@ export function NewsletterForm({ defaultLists = ['GENERAL'], compact = false }: 
       const data = await res.json()
 
       if (!res.ok) {
-        setErrorMsg('Une erreur est survenue. Réessayez.')
+        setErrorMsg(t('error'))
         setStatus('error')
         return
       }
 
       setStatus(data.status === 'already_confirmed' ? 'already_confirmed' : 'success')
     } catch {
-      setErrorMsg('Erreur réseau. Réessayez.')
+      setErrorMsg(t('networkError'))
       setStatus('error')
     }
   }
 
+  const bodyTone = isLight ? 'text-plo-subtle' : 'text-plo-gray'
+  const titleTone = isLight ? 'text-plo-void' : 'text-plo-white'
+
   if (status === 'success') {
     return (
       <div className={compact ? 'py-4' : 'py-8'}>
-        <p className="font-ui text-xs tracking-widest uppercase text-secondary mb-2">
-          Newsletter
-        </p>
-        <p className="font-serif text-xl font-semibold text-on-surface mb-1">
-          Vérifiez votre boîte mail
-        </p>
-        <p className="font-sans text-sm text-on-surface-variant">
-          Un email de confirmation vient d&apos;être envoyé à <strong>{email}</strong>.
-          Cliquez sur le lien pour finaliser votre inscription.
-        </p>
+        <p className="text-label text-plo-red mb-2">Newsletter</p>
+        <p className={`text-display text-2xl mb-1 ${titleTone}`}>{t('successTitle')}</p>
+        <p className={`font-sans text-sm ${bodyTone}`}>{t('successBody', { email })}</p>
       </div>
     )
   }
@@ -73,26 +73,16 @@ export function NewsletterForm({ defaultLists = ['GENERAL'], compact = false }: 
   if (status === 'already_confirmed') {
     return (
       <div className={compact ? 'py-4' : 'py-8'}>
-        <p className="font-ui text-xs tracking-widest uppercase text-secondary mb-2">
-          Newsletter
-        </p>
-        <p className="font-serif text-xl font-semibold text-on-surface mb-1">
-          Vous êtes déjà inscrit(e)
-        </p>
-        <p className="font-sans text-sm text-on-surface-variant">
-          Vos préférences d&apos;abonnement ont été mises à jour.
-        </p>
+        <p className="text-label text-plo-red mb-2">Newsletter</p>
+        <p className={`text-display text-2xl mb-1 ${titleTone}`}>{t('alreadyConfirmedTitle')}</p>
+        <p className={`font-sans text-sm ${bodyTone}`}>{t('alreadyConfirmedBody')}</p>
       </div>
     )
   }
 
   return (
     <form onSubmit={handleSubmit} className={compact ? '' : 'py-2'}>
-      {!compact && (
-        <p className="font-ui text-xs tracking-widest uppercase text-secondary mb-3">
-          Newsletter
-        </p>
-      )}
+      {!compact && <p className="text-label text-plo-red mb-3">Newsletter</p>}
 
       {/* Listes */}
       <div className="flex flex-wrap gap-3 mb-4">
@@ -101,22 +91,18 @@ export function NewsletterForm({ defaultLists = ['GENERAL'], compact = false }: 
             type="checkbox"
             checked={lists.includes('GENERAL')}
             onChange={() => toggleList('GENERAL')}
-            className="accent-secondary w-4 h-4"
+            className="accent-plo-red w-4 h-4"
           />
-          <span className="font-sans text-sm text-on-surface-variant">
-            Résumé hebdomadaire
-          </span>
+          <span className={`font-sans text-sm ${bodyTone}`}>{t('weeklyOption')}</span>
         </label>
         <label className="flex items-center gap-2 cursor-pointer select-none">
           <input
             type="checkbox"
             checked={lists.includes('HAND_OF_WEEK')}
             onChange={() => toggleList('HAND_OF_WEEK')}
-            className="accent-secondary w-4 h-4"
+            className="accent-plo-red w-4 h-4"
           />
-          <span className="font-sans text-sm text-on-surface-variant">
-            Main de la semaine
-          </span>
+          <span className={`font-sans text-sm ${bodyTone}`}>{t('handOption')}</span>
         </label>
       </div>
 
@@ -127,21 +113,19 @@ export function NewsletterForm({ defaultLists = ['GENERAL'], compact = false }: 
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="votre@email.fr"
-          className="flex-1 min-w-0 bg-surface-container border border-outline-variant rounded px-3 py-2 font-sans text-sm text-on-surface placeholder:text-outline focus:outline-none focus:border-secondary transition-colors"
+          placeholder={t('emailPlaceholder')}
+          className={`input-newsletter flex-1 min-w-0 ${isLight ? '' : 'input-newsletter-dark'}`}
         />
         <button
           type="submit"
           disabled={status === 'loading' || lists.length === 0}
-          className="font-ui text-xs tracking-widest uppercase px-4 py-2 bg-secondary text-on-secondary rounded hover:opacity-90 transition-opacity disabled:opacity-40 whitespace-nowrap"
+          className="btn-primary whitespace-nowrap disabled:opacity-40"
         >
-          {status === 'loading' ? '...' : "S'inscrire"}
+          {status === 'loading' ? t('submitting') : t('submit')}
         </button>
       </div>
 
-      {status === 'error' && (
-        <p className="font-sans text-xs text-error mt-2">{errorMsg}</p>
-      )}
+      {status === 'error' && <p className="font-sans text-xs text-plo-red mt-2">{errorMsg}</p>}
     </form>
   )
 }

@@ -33,19 +33,34 @@
     "heroSubtitle": "Le journal définitif pour le grinder moderne — la précision dans chaque main, la discipline dans chaque vie.",
     "heroCta": "Lire le blog",
     "featuredLabel": "À LA UNE",
-    "latestTitle": "Dernières publications"
+    "latestTitle": "Dernières publications",
+    "newsletterEyebrow": "Newsletter",
+    "newsletterTitle": "L'obsession dans votre boîte.",
+    "newsletterSubtitle": "Analyses stratégiques, dossiers Obsession et alertes Drops — chaque semaine dans votre boîte mail. Aucun spam.",
+    "cercleLabel": "Le Cercle",
+    "cercleQuote1": "Le seul endroit où l'on discute de GTO avec autant de rigueur que d'architecture brutaliste.",
+    "cercleQuote1Author": "Membre depuis 2023",
+    "cercleQuote2": "Accès aux drops avant le public, reviews de sessions de très haut niveau. Indispensable.",
+    "cercleQuote2Author": "Membre Élite",
+    "cercleCta": "Rejoindre le cercle"
   },
   "blog": {
+    "edition": "Édition 2024",
     "title": "Tous les articles",
     "subtitle": "Stratégies, destinations et lifestyle poker",
-    "filterBy": "Filtrer",
-    "noResults": "Aucun article trouvé."
+    "filterBy": "Filtrer par",
+    "all": "Tout",
+    "noResults": "Aucun article trouvé.",
+    "loadMore": "Charger l'archive"
   },
   "post": {
     "relatedPosts": "Lire ensuite",
-    "authorAbout": "L'auteur"
+    "continueReading": "Continuer la lecture",
+    "authorAbout": "L'auteur",
+    "newsletterCta": "Vous avez aimé cet article ?",
+    "newsletterCtaBody": "Recevez chaque semaine les nouvelles analyses directement dans votre boîte mail."
   },
-  "about": { "title": "À propos" },
+  "about": { "title": "À propos", "empty": "Contenu à venir." },
   "contact": {
     "title": "Contact",
     "subtitle": "Une question ? Écrivez-nous.",
@@ -89,5 +104,51 @@
   "privacyPolicy": {
     "title": "Politique de confidentialité",
     "pendingNotice": "Cette page est en attente de relecture juridique — contenu provisoire."
+  },
+  "newsletter": {
+    "eyebrow": "Newsletter",
+    "metaTitle": "Newsletter — PLO",
+    "metaDescription": "Abonnez-vous pour recevoir les analyses poker, le résumé hebdomadaire et les notifications Main de la semaine.",
+    "confirmedTitle": "Inscription confirmée !",
+    "confirmedBody": "Vous êtes maintenant abonné(e) à la newsletter PLO. Bienvenue dans la communauté.",
+    "unsubscribedTitle": "Désinscription effectuée",
+    "unsubscribedBody": "Votre adresse a bien été retirée de notre liste. Vous ne recevrez plus d'emails de notre part.",
+    "errorTitle": "Lien invalide ou expiré",
+    "errorBody": "Ce lien ne fonctionne plus. Réinscrivez-vous ci-dessous pour recevoir un nouveau lien.",
+    "title": "Restez au niveau",
+    "subtitle": "Analyses stratégiques, mains commentées, théorie GTO — directement dans votre boîte mail. Pas de spam, juste du contenu utile.",
+    "weeklyLabel": "Résumé hebdomadaire",
+    "weeklyBody": "Chaque lundi matin — les nouveaux articles de la semaine résumés en un email.",
+    "handLabel": "Main de la semaine",
+    "handBody": "Notification quand une nouvelle main est disponible pour le vote, et quand l'analyse est publiée.",
+    "chooseSubscriptions": "Choisissez vos abonnements",
+    "form": {
+      "weeklyOption": "Résumé hebdomadaire",
+      "handOption": "Main de la semaine",
+      "emailPlaceholder": "votre@email.fr",
+      "submit": "S'inscrire",
+      "submitting": "…",
+      "successTitle": "Vérifiez votre boîte mail",
+      "successBody": "Un email de confirmation vient d'être envoyé à {email}. Cliquez sur le lien pour finaliser votre inscription.",
+      "alreadyConfirmedTitle": "Vous êtes déjà inscrit(e)",
+      "alreadyConfirmedBody": "Vos préférences d'abonnement ont été mises à jour.",
+      "error": "Une erreur est survenue. Réessayez.",
+      "networkError": "Erreur réseau. Réessayez."
+    }
+  },
+  "auth": {
+    "tagline": "Le cercle restreint",
+    "title": "Connexion",
+    "subtitle": "Accède à ton espace et rejoins la communauté.",
+    "googleContinue": "Continuer avec Google",
+    "or": "ou",
+    "emailPlaceholder": "ton@email.com",
+    "magicLinkSent": "Lien envoyé !",
+    "magicLinkSentDesc": "Vérifie ta boîte mail pour te connecter.",
+    "magicLinkCta": "Recevoir un lien magique",
+    "magicLinkSending": "Envoi…",
+    "error": "Une erreur est survenue. Réessaie.",
+    "terms": "En continuant, tu acceptes nos",
+    "termsLink": "conditions d'utilisation"
   }
 }

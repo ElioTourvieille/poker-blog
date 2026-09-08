@@ -39,7 +39,7 @@ export function AuthorCard({ author, locale, label }: AuthorCardProps) {
     : null
 
   return (
-    <div className="flex flex-col sm:flex-row gap-4 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900">
+    <div className="flex flex-col sm:flex-row gap-4 p-5 border border-plo-border bg-plo-deep">
       {imageUrl && (
         <Image
           src={imageUrl}
@@ -50,33 +50,33 @@ export function AuthorCard({ author, locale, label }: AuthorCardProps) {
         />
       )}
       <div className="flex flex-col gap-1">
-        {label && <p className="text-xs font-medium text-zinc-500 uppercase tracking-wider">{label}</p>}
+        {label && <p className="text-label text-plo-gray">{label}</p>}
         <Link
           href={`/${locale}/auteurs/${author.slug?.current ?? ''}`}
-          className="font-semibold text-zinc-900 dark:text-zinc-50 hover:underline"
+          className="font-ui text-lg text-plo-white hover:text-plo-red transition-colors"
         >
           {author.name}
         </Link>
         {excerpt && (
-          <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">{excerpt}…</p>
+          <p className="font-sans text-sm text-plo-gray leading-relaxed">{excerpt}…</p>
         )}
         {author.socialLinks && (
-          <div className="flex gap-3 mt-1">
+          <div className="flex gap-4 mt-1">
             {author.socialLinks.twitter && (
               <a href={author.socialLinks.twitter} target="_blank" rel="noopener noreferrer"
-                className="text-xs text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-50">
+                className="text-label text-plo-gray hover:text-plo-red transition-colors">
                 Twitter
               </a>
             )}
             {author.socialLinks.instagram && (
               <a href={author.socialLinks.instagram} target="_blank" rel="noopener noreferrer"
-                className="text-xs text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-50">
+                className="text-label text-plo-gray hover:text-plo-red transition-colors">
                 Instagram
               </a>
             )}
             {author.socialLinks.linkedin && (
               <a href={author.socialLinks.linkedin} target="_blank" rel="noopener noreferrer"
-                className="text-xs text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-50">
+                className="text-label text-plo-gray hover:text-plo-red transition-colors">
                 LinkedIn
               </a>
             )}
