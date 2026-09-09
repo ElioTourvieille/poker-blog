@@ -1,0 +1,64 @@
+# Config CodeRabbit — PLO (poker-blog)
+# Reference : https://docs.coderabbit.ai/reference/yaml-template
+
+language: fr
+
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  collapse_walkthrough: true
+
+  auto_review:
+    enabled: true
+    auto_incremental_review: true
+    base_branches:
+      - master
+
+  path_filters:
+    - "!**/*.lock"
+    - "!pnpm-lock.yaml"
+    - "!**/*.tsbuildinfo"
+    - "!.next/**"
+    - "!sanity.types.ts"
+    - "!public/**"
+
+  # Rappels propres à PLO (AGENTS.md) pour que la revue pointe vers les vraies
+  # règles du projet plutôt que des recommandations génériques.
+  path_instructions:
+    - path: "app/api/**/route.ts"
+      instructions: >
+        Route API publique du projet PLO. Vérifier systématiquement :
+        authentification requise avant toute écriture (sauf exception
+        produit explicitement documentée, ex. inscription newsletter
+        anonyme) ; rate limiting sur les écritures publiques (soumission
+        de main, vote, commentaire, newsletter) ; jamais de validation
+        côté client seul ; jamais d'appel coûteux (LLM, envoi d'email en
+        masse) sans plafond.
+    - path: "db/schema.ts"
+      instructions: >
+        Toute nouvelle table doit avoir été proposée et validée dans un
+        prompt d'implémentation (voir /prompts) avant d'être écrite ici —
+        signaler si ce n'est pas visiblement le cas. Contraintes d'unicité
+        (ex. un vote par utilisateur par main) doivent être au niveau base
+        de données, pas seulement vérifiées côté application.
+    - path: "sanity/schemaTypes/**"
+      instructions: >
+        Le front public ne doit jamais écrire dans Sanity depuis une route
+        publique ou une Server Action accessible aux visiteurs. Sanity
+        reste l'outil des rédacteurs.
+    - path: 'app/\[locale\]/**'
+      instructions: >
+        Dark mode permanent (pas de toggle thème), palette 90% noir/blanc
+        10% rouge (#C8102E) maximum, typographies Bebas Neue / Source
+        Serif 4 / Inter uniquement, border-radius max 4px — voir
+        docs/design-tokens.md. Toute page doit rester bilingue FR/EN sans
+        régression de routing (next-intl, segment [locale]).
+
+chat:
+  auto_reply: true
+
+knowledge_base:
+  learnings:
+    scope: auto

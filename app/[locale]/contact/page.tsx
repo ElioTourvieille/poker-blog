@@ -15,7 +15,7 @@ export default async function ContactPage({ params }: Props) {
   const { locale } = await params
   setRequestLocale(locale)
   return (
-    <main className="max-w-xl mx-auto px-4 py-12 w-full">
+    <main className="max-w-xl mx-auto px-4 md:px-8 py-16 md:py-24 w-full">
       <ContactForm />
     </main>
   )

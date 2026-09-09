@@ -56,7 +56,7 @@ export function UserMenu() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-10 w-48 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-lg py-1 z-50">
+        <div className="absolute right-0 top-10 w-48 bg-plo-deep border border-plo-border py-1 z-50">
           <div className="px-4 py-2 border-b border-outline-variant">
             <p className="font-ui text-xs font-medium text-on-surface truncate">{user.name}</p>
             <p className="font-ui text-xs text-outline truncate">{user.email}</p>

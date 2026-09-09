@@ -9,6 +9,12 @@ import type { Metadata } from 'next'
 
 type Props = { params: Promise<{ locale: string }> }
 
+const PILLAR_LINKS = [
+  { key: 'strategy', href: '/blog?category=strategie' },
+  { key: 'obsession', href: '/blog?category=obsession' },
+  { key: 'drops', href: '/blog?category=drops' },
+] as const
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'home' })
@@ -23,6 +29,7 @@ export default async function HomePage({ params }: Props) {
   setRequestLocale(locale)
 
   const t = await getTranslations('home')
+  const tNav = await getTranslations('nav')
   const tCommon = await getTranslations('common')
 
   const [featured, { posts: latest }] = await Promise.all([
@@ -65,52 +72,92 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      {/* ── Feature article ───────────────────────────────────────── */}
-      {featurePost && (
-        <section className="max-w-7xl mx-auto px-4 md:px-16 py-16 md:py-24">
-          <FeaturedArticle
-            post={featurePost}
-            locale={typedLocale}
-            label={t('featuredLabel')}
-            tMinRead={tCommon('minRead')}
-          />
-        </section>
-      )}
-
-      {/* ── Latest dispatches ─────────────────────────────────────── */}
-      {gridPosts.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 md:px-16 pb-20 md:pb-32">
-          <div className="flex items-baseline justify-between mb-6 pb-4 border-b border-outline-variant">
-            <h2 className="font-serif text-2xl font-semibold text-on-surface">
-              {t('latestTitle')}
-            </h2>
-            <Link
-              href="/blog"
-              className="font-ui text-xs tracking-widest uppercase text-secondary hover:text-secondary/70 transition-colors"
-            >
+      {/* ── Dernières publications ───────────────────────────────────
+          Fond blanc — voir docs/design-tokens.md, "Rythme de la homepage" */}
+      <section className="section-light">
+        <div className="max-w-7xl mx-auto px-4 md:px-16 py-16 md:py-24">
+          <div className="flex flex-wrap items-center gap-4 mb-4">
+            {PILLAR_LINKS.map(({ key, href }) => (
+              <Link key={key} href={href} className="text-label text-plo-subtle hover:text-plo-red transition-colors">
+                {tNav(key)}
+              </Link>
+            ))}
+          </div>
+          <div className="flex items-baseline justify-between mb-10 md:mb-14">
+            <h2 className="text-display text-4xl md:text-5xl text-plo-void">{t('latestTitle')}</h2>
+            <Link href="/blog" className="text-label text-plo-subtle hover:text-plo-void transition-colors shrink-0">
               {tCommon('viewAll')} →
             </Link>
           </div>
-          <ArticleGrid posts={gridPosts} locale={typedLocale} tMinRead={tCommon('minRead')} />
-        </section>
-      )}
+
+          {featurePost && (
+            <div className="mb-10 md:mb-12">
+              <FeaturedArticle
+                post={featurePost}
+                locale={typedLocale}
+                label={t('featuredLabel')}
+                tReadMore={tCommon('readMore')}
+                tMinRead={tCommon('minRead')}
+                variant="light"
+              />
+            </div>
+          )}
+
+          {gridPosts.length > 0 && (
+            <ArticleGrid
+              posts={gridPosts}
+              locale={typedLocale}
+              tMinRead={tCommon('minRead')}
+              tReadMore={tCommon('readMore')}
+              variant="light"
+            />
+          )}
+        </div>
+      </section>
 
       {/* ── Newsletter ────────────────────────────────────────────── */}
-      <section className="border-t border-outline-variant">
-        <div className="max-w-7xl mx-auto px-4 md:px-16 py-16 md:py-20 flex flex-col md:flex-row md:items-center gap-8 md:gap-16">
-          <div className="flex-1">
-            <p className="font-ui text-xs tracking-widest uppercase text-secondary mb-3">
-              Newsletter
-            </p>
-            <h2 className="font-serif text-2xl md:text-3xl font-bold text-on-surface leading-tight mb-3">
-              Analyses & stratégies directement dans votre boîte
-            </h2>
-            <p className="font-sans text-sm text-on-surface-variant leading-relaxed">
-              Résumé hebdomadaire des nouveaux articles, notifications Main de la semaine. Aucun spam.
-            </p>
+      <section className="section-light border-t border-plo-off">
+        <div className="max-w-2xl mx-auto px-4 md:px-16 py-16 md:py-24 text-center flex flex-col items-center">
+          <p className="text-label text-plo-red mb-4">{t('newsletterEyebrow')}</p>
+          <h2 className="text-display text-4xl md:text-5xl text-plo-void mb-4">{t('newsletterTitle')}</h2>
+          <p className="font-sans text-sm text-plo-subtle leading-relaxed mb-10 max-w-md">
+            {t('newsletterSubtitle')}
+          </p>
+          <div className="w-full max-w-sm">
+            <NewsletterForm compact tone="light" />
           </div>
-          <div className="flex-1 max-w-md">
-            <NewsletterForm compact />
+        </div>
+      </section>
+
+      {/* ── Le Cercle ─────────────────────────────────────────────── */}
+      <section className="bg-plo-deep">
+        <div className="max-w-7xl mx-auto px-4 md:px-16 py-16 md:py-24">
+          <h2 className="text-display text-3xl md:text-4xl text-plo-white text-center mb-12">
+            {t('cercleLabel')}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <blockquote className="border border-plo-border p-8 text-center">
+              <p className="font-serif text-xl text-plo-white leading-relaxed italic mb-4">
+                “{t('cercleQuote1')}”
+              </p>
+              <cite className="text-label text-plo-gray not-italic">{t('cercleQuote1Author')}</cite>
+            </blockquote>
+            <blockquote className="border border-plo-border p-8 text-center">
+              <p className="font-serif text-xl text-plo-white leading-relaxed italic mb-4">
+                “{t('cercleQuote2')}”
+              </p>
+              <cite className="text-label text-plo-gray not-italic">{t('cercleQuote2Author')}</cite>
+            </blockquote>
+          </div>
+          <div className="flex justify-center">
+            <a
+              href="https://discord.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary"
+            >
+              {t('cercleCta')}
+            </a>
           </div>
         </div>
       </section>

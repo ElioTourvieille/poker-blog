@@ -33,19 +33,34 @@
     "heroSubtitle": "The definitive journal for the modern grinder — precision in every hand, discipline in every life.",
     "heroCta": "Read the blog",
     "featuredLabel": "FEATURE",
-    "latestTitle": "Latest Publications"
+    "latestTitle": "Latest Publications",
+    "newsletterEyebrow": "Newsletter",
+    "newsletterTitle": "The obsession, in your inbox.",
+    "newsletterSubtitle": "Strategy breakdowns, Obsession features and Drops alerts — every week in your inbox. No spam.",
+    "cercleLabel": "The Circle",
+    "cercleQuote1": "The only place where GTO gets discussed with as much rigor as brutalist architecture.",
+    "cercleQuote1Author": "Member since 2023",
+    "cercleQuote2": "Early access to drops, top-tier session reviews. Essential.",
+    "cercleQuote2Author": "Elite Member",
+    "cercleCta": "Join the circle"
   },
   "blog": {
+    "edition": "2024 Edition",
     "title": "All Articles",
     "subtitle": "Strategy, destinations and poker lifestyle",
-    "filterBy": "Filter",
-    "noResults": "No articles found."
+    "filterBy": "Filter by",
+    "all": "All",
+    "noResults": "No articles found.",
+    "loadMore": "Load the archive"
   },
   "post": {
     "relatedPosts": "Read Next",
-    "authorAbout": "The Author"
+    "continueReading": "Continue Reading",
+    "authorAbout": "The Author",
+    "newsletterCta": "Enjoyed this article?",
+    "newsletterCtaBody": "Get the latest analysis delivered to your inbox every week."
   },
-  "about": { "title": "About" },
+  "about": { "title": "About", "empty": "Content coming soon." },
   "contact": {
     "title": "Contact",
     "subtitle": "Have a question? Write to us.",
@@ -71,11 +86,69 @@
     "links": {
       "about": "About",
       "archive": "Archive",
-      "privacy": "Privacy"
+      "privacy": "Privacy",
+      "manageCookies": "Manage cookies"
     }
   },
   "lang": {
     "switch": "Français",
     "current": "English"
+  },
+  "cookieBanner": {
+    "title": "Cookies",
+    "description": "We use audience measurement cookies (PostHog, hosted in the EU) to understand what you're interested in on PLO. Nothing is sent without your consent.",
+    "learnMore": "Learn more",
+    "accept": "Accept",
+    "reject": "Reject"
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "pendingNotice": "This page is pending legal review — placeholder content."
+  },
+  "newsletter": {
+    "eyebrow": "Newsletter",
+    "metaTitle": "Newsletter — PLO",
+    "metaDescription": "Subscribe to get poker analysis, the weekly digest and Hand of the Week notifications.",
+    "confirmedTitle": "Subscription confirmed!",
+    "confirmedBody": "You're now subscribed to the PLO newsletter. Welcome to the community.",
+    "unsubscribedTitle": "Unsubscribed",
+    "unsubscribedBody": "Your address has been removed from our list. You won't receive any more emails from us.",
+    "errorTitle": "Invalid or expired link",
+    "errorBody": "This link no longer works. Sign up again below to get a new one.",
+    "title": "Stay sharp",
+    "subtitle": "Strategy breakdowns, hand analysis, GTO theory — straight to your inbox. No spam, just useful content.",
+    "weeklyLabel": "Weekly digest",
+    "weeklyBody": "Every Monday morning — the week's new articles summarized in one email.",
+    "handLabel": "Hand of the Week",
+    "handBody": "Notified when a new hand is up for vote, and when the analysis is published.",
+    "chooseSubscriptions": "Choose your subscriptions",
+    "form": {
+      "weeklyOption": "Weekly digest",
+      "handOption": "Hand of the Week",
+      "emailPlaceholder": "your@email.com",
+      "submit": "Subscribe",
+      "submitting": "…",
+      "successTitle": "Check your inbox",
+      "successBody": "A confirmation email was just sent to {email}. Click the link to complete your subscription.",
+      "alreadyConfirmedTitle": "You're already subscribed",
+      "alreadyConfirmedBody": "Your subscription preferences have been updated.",
+      "error": "Something went wrong. Please try again.",
+      "networkError": "Network error. Please try again."
+    }
+  },
+  "auth": {
+    "tagline": "The inner circle",
+    "title": "Sign in",
+    "subtitle": "Access your space and join the community.",
+    "googleContinue": "Continue with Google",
+    "or": "or",
+    "emailPlaceholder": "you@email.com",
+    "magicLinkSent": "Link sent!",
+    "magicLinkSentDesc": "Check your inbox to sign in.",
+    "magicLinkCta": "Get a magic link",
+    "magicLinkSending": "Sending…",
+    "error": "Something went wrong. Try again.",
+    "terms": "By continuing, you agree to our",
+    "termsLink": "terms of use"
   }
 }

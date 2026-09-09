@@ -10,18 +10,23 @@ type Props = { params: Promise<{ locale: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
-  const t = await getTranslations({ locale, namespace: 'about' })
+  const t = await getTranslations({ locale, namespace: 'privacyPolicy' })
   return { title: t('title') }
 }
 
-export default async function AboutPage({ params }: Props) {
+// Contenu porté par Sanity (document `page`, slug "politique-de-confidentialite")
+// pour rester éditable sans déploiement — volontairement pas de texte légal en
+// dur dans le code. Tant que le document n'existe pas dans Sanity (zéro contenu
+// publié à ce jour, voir AGENTS.md), la page affiche l'avertissement ci-dessous
+// plutôt qu'un texte inventé. Voir prompts/01-analytics-posthog.md, hypothèse 3.
+export default async function PrivacyPolicyPage({ params }: Props) {
   const { locale } = await params
   setRequestLocale(locale)
 
-  const t = await getTranslations('about')
+  const t = await getTranslations('privacyPolicy')
   const typedLocale = locale as Locale
 
-  const page = await getPageBySlug('a-propos')
+  const page = await getPageBySlug('politique-de-confidentialite')
   const title = page ? (getLocalizedValue(page.title, typedLocale) ?? t('title')) : t('title')
   const body = page ? getLocalizedValue(page.body as { fr?: BlockContent; en?: BlockContent } | null, typedLocale) : null
 
@@ -31,7 +36,7 @@ export default async function AboutPage({ params }: Props) {
       {body ? (
         <PortableTextRenderer value={body} />
       ) : (
-        <p className="font-sans text-plo-gray">{t('empty')}</p>
+        <p className="font-sans text-plo-gray">{t('pendingNotice')}</p>
       )}
     </main>
   )

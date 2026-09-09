@@ -8,12 +8,32 @@ interface CategoryBadgeProps {
   variant?: 'chip' | 'label'
 }
 
+/**
+ * Les 3 piliers éditoriaux (Stratégie/Obsession/Drops) ont chacun une couleur de
+ * badge dédiée dans le design system (voir docs/design-tokens.md). `category` est un
+ * document Sanity libre (pas d'enum) — ce mapping est une convention éditoriale, pas
+ * une contrainte de schéma. Toute catégorie hors de ces 3 slugs retombe sur le style
+ * "drops" (neutre) plutôt que de planter.
+ */
+export function getCategoryBadgeClass(slug?: string | null): string {
+  switch (slug) {
+    case 'strategie':
+      return 'badge-strategie'
+    case 'obsession':
+      return 'badge-obsession'
+    case 'drops':
+      return 'badge-drops'
+    default:
+      return 'badge-drops'
+  }
+}
+
 export function CategoryBadge({ title, slug, icon, locale, variant = 'chip' }: CategoryBadgeProps) {
   if (variant === 'label') {
     return (
       <Link
         href={`/${locale}/categories/${slug}`}
-        className="font-ui text-xs tracking-widest uppercase text-secondary hover:text-secondary/80 transition-colors"
+        className="text-label text-plo-red hover:text-plo-red-hover transition-colors"
       >
         {icon && <span className="mr-1">{icon}</span>}
         {title}
@@ -22,10 +42,7 @@ export function CategoryBadge({ title, slug, icon, locale, variant = 'chip' }: C
   }
 
   return (
-    <Link
-      href={`/${locale}/categories/${slug}`}
-      className="font-ui text-xs tracking-[0.08em] uppercase px-3 py-1 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest transition-colors"
-    >
+    <Link href={`/${locale}/categories/${slug}`} className={`badge ${getCategoryBadgeClass(slug)} hover:border-plo-red transition-colors`}>
       {icon && <span className="mr-1">{icon}</span>}
       {title}
     </Link>

@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/navigation'
+import { ManageCookiesLink } from '@/components/analytics/ManageCookiesLink'
 
 const NAV_LINKS = [
   { key: 'strategy', href: '/blog?category=strategie' },
@@ -46,9 +47,10 @@ export function Footer() {
             <Link href="/a-propos" className="text-label text-outline hover:text-plo-red transition-colors">
               {t('links.about')}
             </Link>
-            <Link href="/a-propos" className="text-label text-outline hover:text-plo-red transition-colors">
+            <Link href="/politique-de-confidentialite" className="text-label text-outline hover:text-plo-red transition-colors">
               {t('links.privacy')}
             </Link>
+            <ManageCookiesLink />
           </nav>
         </div>
 

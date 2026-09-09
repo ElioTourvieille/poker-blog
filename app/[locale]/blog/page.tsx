@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { getPosts, getPostsByCategory, getCategories } from '@/lib/sanity/fetch'
 import { ArticleGrid } from '@/components/blog/ArticleGrid'
+import { FeaturedArticle } from '@/components/blog/FeaturedArticle'
 import { Pagination } from '@/components/ui/Pagination'
 import { getLocalizedValue } from '@/lib/getLocalizedValue'
 import { Link } from '@/i18n/navigation'
@@ -41,63 +42,94 @@ export default async function BlogPage({ params, searchParams }: Props) {
     ? categoriesData.find((c) => c.slug?.current === category)
     : null
 
+  const [heroPost, ...restPosts] = posts
+
   return (
-    <main className="max-w-[1280px] mx-auto px-4 md:px-16 py-16 md:py-24">
-      {/* Header */}
-      <div className="mb-12 md:mb-16">
-        <h1 className="font-serif text-4xl md:text-5xl font-semibold text-on-surface mb-3">
-          {activeCategory
-            ? getLocalizedValue(activeCategory.title, typedLocale) ?? t('title')
-            : t('title')}
-        </h1>
-        <p className="font-sans text-base text-on-surface-variant">{t('subtitle')}</p>
+    <main className="section-light">
+      {/* ── Header ────────────────────────────────────────────────── */}
+      <div className="relative overflow-hidden border-b border-plo-off">
+        <div className="relative max-w-site mx-auto px-4 md:px-16 pt-16 pb-10 md:pt-24 md:pb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-10">
+          <div>
+            <p className="text-label text-plo-subtle mb-2">{t('edition')}</p>
+            <h1 className="text-display text-plo-void">
+              {activeCategory ? getLocalizedValue(activeCategory.title, typedLocale) ?? t('title') : t('title')}
+            </h1>
+            <p className="font-sans text-sm text-plo-subtle max-w-md border-l-2 border-plo-red pl-4 mt-4">
+              {t('subtitle')}
+            </p>
+          </div>
+
+          {/* Category filter */}
+          <div className="flex flex-col items-start md:items-end gap-2 shrink-0">
+            <span className="text-label text-plo-subtle">{t('filterBy')} —</span>
+            <nav className="flex flex-wrap gap-4">
+              <Link
+                href={`/${locale}/blog`}
+                className={`text-label transition-colors pb-0.5 border-b ${
+                  !category ? 'text-plo-red border-plo-red' : 'text-plo-subtle border-transparent hover:text-plo-void'
+                }`}
+              >
+                {t('all')}
+              </Link>
+              {categoriesData.map((cat) => (
+                <Link
+                  key={cat._id}
+                  href={`/${locale}/blog?category=${cat.slug?.current}`}
+                  className={`text-label transition-colors pb-0.5 border-b ${
+                    category === cat.slug?.current
+                      ? 'text-plo-red border-plo-red'
+                      : 'text-plo-subtle border-transparent hover:text-plo-void'
+                  }`}
+                >
+                  {getLocalizedValue(cat.title, typedLocale)}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </div>
+        <p aria-hidden="true" className="text-watermark absolute -bottom-6 right-0 text-plo-void opacity-[0.03] select-none hidden md:block">
+          {t('title')}
+        </p>
       </div>
 
-      {/* Category filter */}
-      <div className="flex flex-wrap items-center gap-2 mb-12 pb-6 border-b border-outline-variant">
-        <span className="font-ui text-xs tracking-widest uppercase text-outline mr-1">{t('filterBy')} —</span>
-        <Link
-          href={`/${locale}/blog`}
-          className={`font-ui text-xs tracking-widest uppercase px-3 py-1.5 rounded-full transition-colors ${
-            !category
-              ? 'bg-on-surface text-surface'
-              : 'text-on-surface-variant hover:text-on-surface'
-          }`}
-        >
-          {tCommon('allCategories')}
-        </Link>
-        {categoriesData.map((cat) => (
-          <Link
-            key={cat._id}
-            href={`/${locale}/blog?category=${cat.slug?.current}`}
-            className={`font-ui text-xs tracking-widest uppercase px-3 py-1.5 rounded-full transition-colors ${
-              category === cat.slug?.current
-                ? 'bg-on-surface text-surface'
-                : 'text-on-surface-variant hover:text-on-surface'
-            }`}
-          >
-            {cat.icon && <span className="mr-1">{cat.icon}</span>}
-            {getLocalizedValue(cat.title, typedLocale)}
-          </Link>
-        ))}
+      {/* ── Articles ──────────────────────────────────────────────── */}
+      <div className="max-w-site mx-auto px-4 md:px-16 py-16 md:py-20">
+        {posts.length > 0 ? (
+          <>
+            <div className="mb-10 md:mb-14">
+              <FeaturedArticle
+                post={heroPost}
+                locale={typedLocale}
+                label={t('title')}
+                tReadMore={tCommon('readMore')}
+                tMinRead={tCommon('minRead')}
+                variant="light"
+              />
+            </div>
+            {restPosts.length > 0 && (
+              <ArticleGrid
+                posts={restPosts}
+                locale={typedLocale}
+                tMinRead={tCommon('minRead')}
+                tReadMore={tCommon('readMore')}
+                variant="light"
+              />
+            )}
+            <Pagination
+              currentPage={currentPage}
+              pageCount={pageCount}
+              buildHref={buildHref}
+              tPrevious={tCommon('previous')}
+              tNext={t('loadMore')}
+              tPage={tCommon('page')}
+              tOf={tCommon('of')}
+              variant="light"
+            />
+          </>
+        ) : (
+          <p className="font-sans text-plo-subtle text-center py-24">{t('noResults')}</p>
+        )}
       </div>
-
-      {posts.length > 0 ? (
-        <>
-          <ArticleGrid posts={posts} locale={typedLocale} tMinRead={tCommon('minRead')} />
-          <Pagination
-            currentPage={currentPage}
-            pageCount={pageCount}
-            buildHref={buildHref}
-            tPrevious={tCommon('previous')}
-            tNext={tCommon('next')}
-            tPage={tCommon('page')}
-            tOf={tCommon('of')}
-          />
-        </>
-      ) : (
-        <p className="font-sans text-on-surface-variant text-center py-24">{t('noResults')}</p>
-      )}
     </main>
   )
 }

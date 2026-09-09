@@ -4,6 +4,8 @@ import { magicLink } from 'better-auth/plugins'
 import { db } from '@/db'
 import * as schema from '@/db/schema'
 import { sendMagicLinkEmail, sendWelcomeEmail } from '@/lib/mailer'
+import { captureServerEvent } from '@/lib/posthog-server'
+import { parseConsentCookie } from '@/lib/consent'
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000',
@@ -29,8 +31,15 @@ export const auth = betterAuth({
   databaseHooks: {
     user: {
       create: {
-        after: async (user) => {
+        after: async (user, context) => {
           await sendWelcomeEmail({ name: user.name, email: user.email })
+
+          // Même consentement que côté client (voir lib/consent.ts) — pas
+          // d'event si "Refuser" ou pas de choix fait.
+          const cookieHeader = context?.request?.headers.get('cookie')
+          if (parseConsentCookie(cookieHeader) === 'granted') {
+            await captureServerEvent(user.id, 'user_signed_up')
+          }
         },
       },
     },
