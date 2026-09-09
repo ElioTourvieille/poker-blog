@@ -16,7 +16,7 @@
     "@neondatabase/serverless": "^1.1.0",
     "@portabletext/react": "^6.2.0",
     "@react-email/components": "^1.0.12",
-    "@sanity/client": "^7.22.1",
+    "@sanity/client": "^7.27.0",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^5.23.0",
     "better-auth": "^1.6.14",
