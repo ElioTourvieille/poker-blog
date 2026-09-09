@@ -40,3 +40,17 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 card.txt
+
+# skills marketplace/generique installes localement (symlinks vers .agents/skills) -
+# pas du contenu projet. Les skills PLO ci-dessous restent trackes.
+.claude/skills/*
+!.claude/skills/nextjs-app-router-i18n
+!.claude/skills/sanity-cms-plo
+!.claude/skills/better-auth-drizzle-neon
+!.claude/skills/resend-email-plo
+!.claude/skills/origin-studio-workflow
+
+# stockage reel des skills marketplace (voir .claude/skills/*) - environnement local,
+# pas du contenu produit PLO.
+/.agents/
+/agent/
