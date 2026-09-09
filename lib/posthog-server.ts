@@ -23,13 +23,19 @@ function getClient(): PostHog | null {
  * L'appelant est responsable de vérifier le consentement avant d'appeler cette
  * fonction (voir lib/consent.ts, parseConsentCookie) — pas de garde ici, pour
  * rester explicite au point d'appel plutôt que caché dans un helper partagé.
+ *
+ * captureImmediate() plutôt que capture() : en environnement serverless, capture()
+ * met en file et retourne aussitôt sans garantir l'envoi avant la fin de
+ * l'invocation — flushAt/flushInterval ne suffisent pas à eux seuls. L'appelant
+ * doit await cette fonction pour que l'event parte avant que la réponse/le hook
+ * ne se termine.
  */
-export function captureServerEvent(
+export async function captureServerEvent(
   distinctId: string,
   event: string,
   properties?: Record<string, unknown>,
 ) {
   const posthog = getClient()
   if (!posthog) return
-  posthog.capture({ distinctId, event, properties })
+  await posthog.captureImmediate({ distinctId, event, properties })
 }

@@ -58,7 +58,7 @@ Pour toute implémentation de feature, dans cet ordre, sans exception :
   - Contenu éditorial → Sanity
   - Interactions sociales + votes + soumissions → Postgres/Drizzle
   - Emails → Resend
-  - Analytics → **non installé à ce jour** (gap à combler, voir plus bas)
+  - Analytics → PostHog (voir Stack technique ci-dessous)
 
 ## Stack technique
 

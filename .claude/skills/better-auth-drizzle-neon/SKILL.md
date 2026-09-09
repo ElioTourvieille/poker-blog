@@ -35,6 +35,6 @@ Le champ existe déjà, mais pas sous la forme attendue : `comment.isApproved` e
 
 Noms de tables réels (singulier) : `user`, `session`, `account`, `verification` (Better Auth) ; `comment`, `like`, `bookmark`, `newsletter_subscriber`, `hand_submission`, `reputation` (métier). `like`/`bookmark` ont une clé primaire composite `(userId, postSlug)` — pas de FK vers Sanity, juste le slug en texte.
 
-- `user` → `comment`, `like`, `bookmark`, `hand_submission`, `reputation` (1-1) — et à créer : `vote` (Main de la semaine, Phase 03).
+- `user` → `comment`, `like`, `bookmark`, `hand_submission` (1-N) ; `user` → `reputation` (1-1, `userId` avec contrainte `unique()`) — et à créer : `vote` (Main de la semaine, Phase 03).
 - `reputation` (`points`, `badges[]`) **existe déjà dans le schéma mais n'est référencée nulle part ailleurs dans le code** (aucune route, aucune UI) — ne pas la recréer pour la Phase 04, juste concevoir son usage.
 - Phase 04 (scope à confirmer) : profil public, badges, éventuellement participation forum/quiz si le périmètre validé va jusque-là.

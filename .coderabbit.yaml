@@ -48,7 +48,7 @@ reviews:
         Le front public ne doit jamais écrire dans Sanity depuis une route
         publique ou une Server Action accessible aux visiteurs. Sanity
         reste l'outil des rédacteurs.
-    - path: "app/[locale]/**"
+    - path: 'app/\[locale\]/**'
       instructions: >
         Dark mode permanent (pas de toggle thème), palette 90% noir/blanc
         10% rouge (#C8102E) maximum, typographies Bebas Neue / Source

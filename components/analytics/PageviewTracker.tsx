@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { usePathname } from '@/i18n/navigation'
 import { useLocale } from 'next-intl'
 import { capture } from '@/lib/posthog-client'
+import { onConsentChange } from '@/lib/consent'
 
 /**
  * Îlot client sans rendu — envoie un $pageview à chaque changement de route.
@@ -16,9 +17,20 @@ export function PageviewTracker() {
   const locale = useLocale()
 
   useEffect(() => {
-    capture('$pageview', {
-      locale,
-      $current_url: typeof window !== 'undefined' ? window.location.href : undefined,
+    const sendPageview = () => {
+      capture('$pageview', {
+        locale,
+        $current_url: typeof window !== 'undefined' ? window.location.href : undefined,
+      })
+    }
+
+    // No-op tant que le consentement n'est pas accordé (voir capture()). Si le
+    // visiteur accepte via le bandeau APRÈS ce mount, ni pathname ni locale ne
+    // changent donc cet effet ne se relance pas — sans ce listener, le pageview
+    // de la toute première page vue serait perdu.
+    sendPageview()
+    return onConsentChange((status) => {
+      if (status === 'granted') sendPageview()
     })
   }, [pathname, locale])
 

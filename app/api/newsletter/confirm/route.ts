@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
 
     // Même consentement que côté client — pas d'event si "Refuser" ou pas de choix.
     if (request.cookies.get(CONSENT_COOKIE)?.value === 'granted') {
-      captureServerEvent(subscriber.id, 'newsletter_subscribe_confirmed', {
+      await captureServerEvent(subscriber.id, 'newsletter_subscribe_confirmed', {
         locale: subscriber.locale,
         lists: subscriber.lists,
       })

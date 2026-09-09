@@ -12,8 +12,17 @@ let initialized = false
  * ne veut aucune requête vers PostHog tant que "Accepter" n'a pas été cliqué.
  */
 export function initPostHogIfConsented() {
-  if (initialized || typeof window === 'undefined') return
+  if (typeof window === 'undefined') return
   if (getConsent() !== 'granted') return
+
+  // Déjà initialisé (ex. l'utilisateur avait refusé puis re-accepte dans la même
+  // session) : ne pas ré-appeler posthog.init(), juste lever l'opt-out posé par
+  // stopPostHogCapturing() — sinon capture()/identify() no-opent silencieusement
+  // côté SDK malgré nos propres garde-fous qui pensent que tout est bon.
+  if (initialized) {
+    posthog.opt_in_capturing()
+    return
+  }
 
   const key = process.env.NEXT_PUBLIC_POSTHOG_KEY
   if (!key) return

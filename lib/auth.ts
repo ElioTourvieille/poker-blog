@@ -38,7 +38,7 @@ export const auth = betterAuth({
           // d'event si "Refuser" ou pas de choix fait.
           const cookieHeader = context?.request?.headers.get('cookie')
           if (parseConsentCookie(cookieHeader) === 'granted') {
-            captureServerEvent(user.id, 'user_signed_up')
+            await captureServerEvent(user.id, 'user_signed_up')
           }
         },
       },
