@@ -98,7 +98,7 @@ Pour toute implémentation de feature, dans cet ordre, sans exception :
 - **Boutique v1 = page d'attente uniquement** (email + compteur d'inscrits). Ne jamais construire un vrai flux de commande/paiement tant que le canal de vente n'est pas tranché.
 - **Abonnement premium Stripe reporté** — ne pas construire, même partiellement, sans validation explicite.
 - **Reskin fidèle à la maquette fournie**, jamais "inspiré librement" — comparaison écran par écran (layout, spacing, typo, états), itération jusqu'à correspondance.
-- **Modération des commentaires obligatoire** avant affichage public. Le champ existe (`comment.isApproved`, booléen, `false` par défaut) et le chemin de lecture est déjà câblé (`GET /api/comments` ne renvoie que les commentaires approuvés) — mais **aucun endpoint n'existe pour approuver/rejeter un commentaire**, ni UI. Même trou côté soumissions de main (`hand_submission.status`) : le statut existe et les emails de notification sont prêts, mais rien ne permet de le changer. À inclure explicitement dans le scope de la Phase 02 : créer l'endpoint d'approbation en plus de l'UI, pas seulement l'UI par-dessus une API qui n'existe pas encore côté écriture.
+- **Modération des commentaires obligatoire** avant affichage public. Le champ existe (`comment.isApproved`, booléen, `false` par défaut) et le chemin de lecture est déjà câblé (`GET /api/comments` ne renvoie que les commentaires approuvés). **Endpoints d'approbation créés (12/09/2026, PR #15, voir `prompts/04-moderation-endpoints.md`)** : `PATCH /api/comments/[id]` (approuver, admin only), `GET /api/comments/moderation` (file d'attente, admin only, `?limit=` borné à 200), `PATCH /api/hand-submissions/[id]` (approuver/rejeter, admin only, envoie `sendHandSelectedEmail`/`sendHandRejectedEmail`). **Toujours manquant : aucune UI** (`/dashboard`/`/admin`) — modération testable uniquement via appel HTTP direct. Pour l'approbation d'une main (`APPROVED`), `publishUrl` reste optionnel côté endpoint tant que la Phase 03 (page `handOfWeek`) n'existe pas : sans lien fourni, le statut passe à `APPROVED` mais aucun email n'est envoyé (voir hypothèse 3 du prompt) — à revisiter une fois la Phase 03 commencée.
 - **Toute route publique qui écrit** (soumission de main, vote, inscription newsletter, commentaire) doit être rate-limitée et ne jamais déclencher d'appel coûteux (LLM, envoi d'email en masse) sans plafond.
 
 ## Ce que l'agent ne doit jamais faire
@@ -115,7 +115,7 @@ Pour toute implémentation de feature, dans cet ordre, sans exception :
 
 - PostHog installé (05/09/2026) avec bandeau de consentement réel, mais **la page de politique de confidentialité liée depuis le bandeau n'a pas de texte légal réel** (contenu Sanity `page` à créer, marqué "en attente de relecture juridique" en attendant) — à ne pas laisser traîner au-delà de la mise en prod.
 - CodeRabbit installé (05/09/2026, voir `.coderabbit.yaml`) et Dependabot configuré (`.github/dependabot.yml`) — reste à confirmer manuellement dans Settings → Code security que secret scanning et push protection sont bien activés (CodeRabbit ne couvre ni l'un ni l'autre).
-- Zéro contenu publié dans Sanity — bloque toute démonstration réelle du reskin ; à signaler si ça traîne au-delà de la fin de la Phase 01.
+- **Zéro contenu publié dans Sanity** — bloque toute démonstration réelle du reskin. La Phase 01 est maintenant marquée "Fait" (12/09/2026) : la condition d'alerte posée ici est donc atteinte, ce gap doit être signalé activement au studio maintenant, pas seulement noté ici.
 
 ## Points ouverts (à ne pas trancher seul)
 
@@ -131,8 +131,8 @@ Pour toute implémentation de feature, dans cet ordre, sans exception :
 | Phase | Statut |
 |---|---|
 | 00 — Fondations de marque | Fait |
-| 01 — Rebrand du site existant | En cours (nav/footer/hero faits, 14 fichiers restants à reskinner) |
-| 02 — Social basique (comments/likes/bookmarks) | Pas commencé |
+| 01 — Rebrand du site existant | Fait (reskin des pages restantes mergé, PR #1, `prompts/03-reskin-pages-restantes.md`) — reste bloqué par le contenu Sanity vide, voir gap ci-dessous |
+| 02 — Social basique (comments/likes/bookmarks) | En cours — endpoints de modération créés (PR #15, comments + hand_submission) ; UI comments/likes/bookmarks pas encore branchée sur les routes existantes |
 | 03 — Main de la semaine | Pas commencé |
 | 04 — Communauté & gamification | Pas commencé, scope à confirmer |
 | 05 — SEO, perf, mise en prod | Pas commencé |
