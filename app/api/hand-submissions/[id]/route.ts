@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'
-import { eq } from 'drizzle-orm'
+import { eq, and } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
 import { db, handSubmission, user } from '@/lib/db'
 import { moderateHandSubmissionSchema } from '@/lib/validators'
@@ -19,7 +19,12 @@ export async function PATCH(
     return NextResponse.json({ error: 'Accès refusé' }, { status: 403 })
   }
 
-  const body = await request.json()
+  let body: unknown
+  try {
+    body = await request.json()
+  } catch {
+    return NextResponse.json({ error: 'Corps de requête JSON invalide' }, { status: 422 })
+  }
   const parsed = moderateHandSubmissionSchema.safeParse(body)
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.issues }, { status: 422 })
@@ -27,61 +32,60 @@ export async function PATCH(
 
   const { id } = await params
 
-  const [row] = await db
-    .select({ submission: handSubmission, author: user })
-    .from(handSubmission)
-    .innerJoin(user, eq(handSubmission.userId, user.id))
-    .where(eq(handSubmission.id, id))
+  // UPDATE conditionné sur status='PENDING' pour rester atomique : deux PATCH
+  // concurrents sur la même soumission ne doivent pas tous les deux réussir
+  // (et donc pas déclencher un double email).
+  const [updated] =
+    parsed.data.status === 'APPROVED'
+      ? await db
+          .update(handSubmission)
+          .set({
+            status: 'APPROVED',
+            publishedHandId: parsed.data.publishedHandId,
+            updatedAt: new Date(),
+          })
+          .where(and(eq(handSubmission.id, id), eq(handSubmission.status, 'PENDING')))
+          .returning()
+      : await db
+          .update(handSubmission)
+          .set({
+            status: 'REJECTED',
+            rejectionNote: parsed.data.rejectionNote,
+            updatedAt: new Date(),
+          })
+          .where(and(eq(handSubmission.id, id), eq(handSubmission.status, 'PENDING')))
+          .returning()
 
-  if (!row) {
-    return NextResponse.json({ error: 'Introuvable' }, { status: 404 })
-  }
-  const { submission: existing, author } = row
-  if (existing.status !== 'PENDING') {
+  if (!updated) {
+    // Rien mis à jour : soit introuvable, soit déjà traité (race perdue).
+    const [existing] = await db.select().from(handSubmission).where(eq(handSubmission.id, id))
+    if (!existing) {
+      return NextResponse.json({ error: 'Introuvable' }, { status: 404 })
+    }
     return NextResponse.json({ error: 'Déjà traité' }, { status: 409 })
   }
 
-  if (parsed.data.status === 'APPROVED') {
-    const [updated] = await db
-      .update(handSubmission)
-      .set({
-        status: 'APPROVED',
-        publishedHandId: parsed.data.publishedHandId ?? existing.publishedHandId,
-        updatedAt: new Date(),
-      })
-      .where(eq(handSubmission.id, id))
-      .returning()
+  const [author] = await db.select().from(user).where(eq(user.id, updated.userId))
 
+  if (parsed.data.status === 'APPROVED') {
     // Pas de page "Main de la semaine" tant que la Phase 03 n'existe pas —
     // on n'envoie l'email que si un lien réel a été fourni (voir prompts/04-moderation-endpoints.md).
-    if (parsed.data.publishUrl) {
+    if (parsed.data.publishUrl && author) {
       await sendHandSelectedEmail({
         name: author.name,
         email: author.email,
         publishUrl: parsed.data.publishUrl,
-        board: existing.board,
-        situation: existing.situation,
+        board: updated.board,
+        situation: updated.situation,
       })
     }
-
-    return NextResponse.json(updated)
-  }
-
-  const [updated] = await db
-    .update(handSubmission)
-    .set({
-      status: 'REJECTED',
+  } else if (author) {
+    await sendHandRejectedEmail({
+      name: author.name,
+      email: author.email,
       rejectionNote: parsed.data.rejectionNote,
-      updatedAt: new Date(),
     })
-    .where(eq(handSubmission.id, id))
-    .returning()
-
-  await sendHandRejectedEmail({
-    name: author.name,
-    email: author.email,
-    rejectionNote: parsed.data.rejectionNote,
-  })
+  }
 
   return NextResponse.json(updated)
 }
