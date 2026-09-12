@@ -26,3 +26,21 @@ export const createHandSubmissionSchema = z.object({
   reasoning: z.string().max(2000).optional(),
   action: z.string().min(1).max(500),
 })
+
+// ─── Modération ─────────────────────────────────────────────────────────────
+
+export const moderateCommentSchema = z.object({
+  isApproved: z.literal(true),
+})
+
+export const moderateHandSubmissionSchema = z.discriminatedUnion('status', [
+  z.object({
+    status: z.literal('APPROVED'),
+    publishUrl: z.string().url('URL invalide').optional(),
+    publishedHandId: z.string().min(1).optional(),
+  }),
+  z.object({
+    status: z.literal('REJECTED'),
+    rejectionNote: z.string().min(1).max(1000).optional(),
+  }),
+])
