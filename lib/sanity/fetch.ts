@@ -1,4 +1,5 @@
 import { sanityFetch } from '@/sanity/lib/live'
+import { client } from '@/sanity/lib/client'
 import type { PostCard, CategoryCard } from '@/types/blog'
 import type {
   AuthorsQueryResult,
@@ -66,8 +67,11 @@ export async function getPostBySlug(slug: string): Promise<PostCard & {
   return data as unknown as Awaited<ReturnType<typeof getPostBySlug>>
 }
 
+// Client Sanity brut (pas `sanityFetch`) : appelée depuis `generateStaticParams`,
+// qui s'exécute au build sans requête HTTP — `sanityFetch` (next-sanity/live) lit
+// draftMode() en interne et casse le build hors contexte de requête.
 export async function getPostPaths(): Promise<string[]> {
-  const { data } = await sanityFetch({ query: postPathsQuery })
+  const data = await client.fetch(postPathsQuery)
   return ((Array.isArray(data) ? data : []) as (string | null)[]).filter(Boolean) as string[]
 }
 
@@ -111,8 +115,9 @@ export async function getCategoryBySlug(slug: string): Promise<CategoryCard | nu
   return (data ?? null) as CategoryCard | null
 }
 
+// Client brut — voir le commentaire de `getPostPaths` (appelée depuis generateStaticParams).
 export async function getCategoryPaths(): Promise<string[]> {
-  const { data } = await sanityFetch({ query: categoryPathsQuery })
+  const data = await client.fetch(categoryPathsQuery)
   return ((Array.isArray(data) ? data : []) as (string | null)[]).filter(Boolean) as string[]
 }
 
@@ -128,8 +133,9 @@ export async function getAuthorBySlug(slug: string): Promise<AuthorBySlugQueryRe
   return data as AuthorBySlugQueryResult
 }
 
+// Client brut — voir le commentaire de `getPostPaths` (appelée depuis generateStaticParams).
 export async function getAuthorPaths(): Promise<string[]> {
-  const { data } = await sanityFetch({ query: authorPathsQuery })
+  const data = await client.fetch(authorPathsQuery)
   return ((data ?? []) as AuthorPathsQueryResult).filter(Boolean) as string[]
 }
 
