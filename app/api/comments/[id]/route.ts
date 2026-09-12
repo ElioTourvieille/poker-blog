@@ -4,6 +4,7 @@ import { eq, and } from 'drizzle-orm'
 import { auth } from '@/lib/auth'
 import { db, comment } from '@/lib/db'
 import { moderateCommentSchema } from '@/lib/validators'
+import { moderationNotFoundOrConflict } from '@/lib/moderation'
 
 // PATCH /api/comments/[id] — approuver (admin only)
 export async function PATCH(
@@ -45,10 +46,7 @@ export async function PATCH(
 
   // Rien mis à jour : soit introuvable, soit déjà approuvé (race perdue).
   const [existing] = await db.select().from(comment).where(eq(comment.id, id))
-  if (!existing) {
-    return NextResponse.json({ error: 'Introuvable' }, { status: 404 })
-  }
-  return NextResponse.json({ error: 'Déjà approuvé' }, { status: 409 })
+  return moderationNotFoundOrConflict(existing, 'Déjà approuvé')
 }
 
 // DELETE /api/comments/[id] — supprimer (proprio ou admin)

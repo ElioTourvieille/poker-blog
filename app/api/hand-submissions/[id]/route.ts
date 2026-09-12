@@ -5,6 +5,7 @@ import { auth } from '@/lib/auth'
 import { db, handSubmission, user } from '@/lib/db'
 import { moderateHandSubmissionSchema } from '@/lib/validators'
 import { sendHandSelectedEmail, sendHandRejectedEmail } from '@/lib/mailer'
+import { moderationNotFoundOrConflict } from '@/lib/moderation'
 
 // PATCH /api/hand-submissions/[id] — approuver ou rejeter (admin only)
 export async function PATCH(
@@ -59,32 +60,36 @@ export async function PATCH(
   if (!updated) {
     // Rien mis à jour : soit introuvable, soit déjà traité (race perdue).
     const [existing] = await db.select().from(handSubmission).where(eq(handSubmission.id, id))
-    if (!existing) {
-      return NextResponse.json({ error: 'Introuvable' }, { status: 404 })
-    }
-    return NextResponse.json({ error: 'Déjà traité' }, { status: 409 })
+    return moderationNotFoundOrConflict(existing, 'Déjà traité')
   }
 
   const [author] = await db.select().from(user).where(eq(user.id, updated.userId))
 
-  if (parsed.data.status === 'APPROVED') {
-    // Pas de page "Main de la semaine" tant que la Phase 03 n'existe pas —
-    // on n'envoie l'email que si un lien réel a été fourni (voir prompts/04-moderation-endpoints.md).
-    if (parsed.data.publishUrl && author) {
-      await sendHandSelectedEmail({
+  // Le statut est déjà en base à ce stade : l'email n'est qu'une notification
+  // best-effort, une panne d'envoi ne doit pas faire échouer la décision de
+  // modération (déjà actée) ni renvoyer un 500 trompeur à l'admin.
+  try {
+    if (parsed.data.status === 'APPROVED') {
+      // Pas de page "Main de la semaine" tant que la Phase 03 n'existe pas —
+      // on n'envoie l'email que si un lien réel a été fourni (voir prompts/04-moderation-endpoints.md).
+      if (parsed.data.publishUrl && author) {
+        await sendHandSelectedEmail({
+          name: author.name,
+          email: author.email,
+          publishUrl: parsed.data.publishUrl,
+          board: updated.board,
+          situation: updated.situation,
+        })
+      }
+    } else if (author) {
+      await sendHandRejectedEmail({
         name: author.name,
         email: author.email,
-        publishUrl: parsed.data.publishUrl,
-        board: updated.board,
-        situation: updated.situation,
+        rejectionNote: parsed.data.rejectionNote,
       })
     }
-  } else if (author) {
-    await sendHandRejectedEmail({
-      name: author.name,
-      email: author.email,
-      rejectionNote: parsed.data.rejectionNote,
-    })
+  } catch (error) {
+    console.error('[hand-submissions PATCH] notification email failed:', error)
   }
 
   return NextResponse.json(updated)

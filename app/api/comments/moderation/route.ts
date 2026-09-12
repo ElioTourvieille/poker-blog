@@ -21,8 +21,11 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Accès refusé' }, { status: 403 })
   }
 
-  const requestedLimit = Number(request.nextUrl.searchParams.get('limit'))
-  const limit = Number.isInteger(requestedLimit) && requestedLimit > 0
+  // `null` (paramètre absent) → défaut ; distingué de "0" explicite, qui doit
+  // renvoyer une page vide plutôt que de retomber silencieusement sur le défaut.
+  const limitParam = request.nextUrl.searchParams.get('limit')
+  const requestedLimit = limitParam === null ? null : Number(limitParam)
+  const limit = requestedLimit !== null && Number.isInteger(requestedLimit) && requestedLimit >= 0
     ? Math.min(requestedLimit, MAX_LIMIT)
     : DEFAULT_LIMIT
 
